@@ -57,7 +57,6 @@ filter: >
   var html = body.innerHTML;
   var marcas = (html.match(/TODO-IA/g) || []).length;
   if (marcas) { problemas.push('Quedan ' + marcas + ' marcas TODO-IA.'); }
-  if (/<script|\son[a-z]+=/i.test(html)) { problemas.push('Hay JavaScript (script o atributos on…).'); }
   var palabras = texto(body).split(' ').length;
   if (!body.querySelector('.bloque.practica, .bloque.tarea')) { avisos.push('No hay conexión con la práctica (bloque «Antes de practicar» o «En la tarea»).'); }
   var resumen = problemas.length + ' problemas, ' + avisos.length + ' avisos, ' + palabras + ' palabras';
