@@ -1,0 +1,64 @@
+{
+  "key": "apuntes-bloque",
+  "name": "Apuntes · Bloque pedagógico",
+  "category": "apuntes",
+  "order": "a04",
+  "icon": "fa fa-lightbulb-o",
+  "instructions": "Bloque señalizado del sistema visual de los apuntes (Idea clave, Ejemplo, Contraejemplo, Atención, Definición, Antes de practicar, En la tarea, Ampliación). Insértalo dentro del contenedor de los apuntes. El tipo se puede cambiar después desde el menú contextual.\n",
+  "engine": "ejs",
+  "template": "<div class=\"bloque <%= tipo %>\" data-widget=\"apuntes-bloque\"><span class=\"etiqueta\"><%= ({idea: 'Idea clave', ejemplo: 'Ejemplo', contraejemplo: 'Contraejemplo', atencion: 'Atención', definicion: 'Definición', practica: 'Antes de practicar', tarea: 'En la tarea', ampliacion: 'Ampliación'})[tipo] %></span>\n<p>Escribe aquí el contenido del bloque.</p>\n</div>\n<p><br></p>\n",
+  "selectors": "div.bloque[data-widget=\"apuntes-bloque\"]",
+  "parameters": [
+    {
+      "name": "tipo",
+      "title": "Tipo de bloque",
+      "value": "idea",
+      "options": [
+        {
+          "l": "Idea clave",
+          "v": "idea"
+        },
+        {
+          "l": "Ejemplo",
+          "v": "ejemplo"
+        },
+        {
+          "l": "Contraejemplo",
+          "v": "contraejemplo"
+        },
+        {
+          "l": "Atención",
+          "v": "atencion"
+        },
+        {
+          "l": "Definición",
+          "v": "definicion"
+        },
+        {
+          "l": "Antes de practicar",
+          "v": "practica"
+        },
+        {
+          "l": "En la tarea",
+          "v": "tarea"
+        },
+        {
+          "l": "Ampliación",
+          "v": "ampliacion"
+        }
+      ],
+      "bind": {
+        "getValue": "(el) => ['idea', 'ejemplo', 'contraejemplo', 'atencion', 'definicion', 'practica', 'tarea', 'ampliacion'].find(c => el.classList.contains(c)) || 'idea'\n",
+        "setValue": "(el, v) => {\n  const etiquetas = {idea: 'Idea clave', ejemplo: 'Ejemplo', contraejemplo: 'Contraejemplo', atencion: 'Atención',\n    definicion: 'Definición', practica: 'Antes de practicar', tarea: 'En la tarea', ampliacion: 'Ampliación'};\n  Object.keys(etiquetas).forEach(c => el.classList.remove(c));\n  el.classList.add(v);\n  const etiqueta = el.querySelector('span.etiqueta');\n  if (etiqueta) {\n    etiqueta.textContent = etiquetas[v];\n  }\n}\n"
+      }
+    }
+  ],
+  "autocomplete": "tipo",
+  "contextmenu": [
+    {
+      "actions": "printable | cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

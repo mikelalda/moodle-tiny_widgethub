@@ -1,0 +1,33 @@
+key: apuntes-h5p
+name: Apuntes · Contenido H5P
+category: apuntes
+order: a10
+icon: fa fa-puzzle-piece
+instructions: >
+  Pone un H5P dentro del contenedor de los apuntes, con su texto alternativo obligatorio (qué se practica; el apunte debe
+  entenderse aunque el H5P no cargue). Dos formas de usarlo:
+  1) Crea el H5P con el editor de Moodle (Banco de contenido > Añadir), insértalo con el botón H5P del editor,
+  selecciónalo y aplica este widget: lo envuelve en el contenedor.
+  2) Sin selección: pega la URL del H5P (un .h5p del banco de contenido o la URL de «Insertar» de una actividad H5P).
+template: |
+  <p>{{alternativo}}</p>
+  <div class="h5p-container" data-widget="apuntes-h5p">
+  <div class="h5p-placeholder" contenteditable="false">{{url}}</div>
+  </div>
+  <p><br></p>
+insertquery: "r! .h5p-placeholder"
+selectors: div.h5p-container[data-widget="apuntes-h5p"]
+parameters:
+  - name: alternativo
+    title: Texto visible antes del H5P (qué se practica)
+    type: textarea
+    value: Practica … con unas preguntas breves. Si no se carga, repasa el apartado anterior.
+  - name: url
+    title: URL del H5P (déjala vacía si vas a usar el botón H5P del editor)
+    value: ""
+    when: SELECT_MODE === 'insert'
+    bind: text('.h5p-placeholder')
+contextmenu:
+  - actions: cut | remove
+author: Kit scorm2libro
+version: 2.0.0

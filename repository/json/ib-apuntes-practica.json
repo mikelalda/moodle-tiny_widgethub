@@ -1,0 +1,72 @@
+{
+  "key": "apuntes-practica",
+  "name": "Apuntes · Conexión con la práctica",
+  "category": "apuntes",
+  "order": "a16",
+  "icon": "fa fa-link",
+  "instructions": "Conecta el apunte con una actividad del curso. Escribe su nombre exactamente como aparece en Moodle; si no sabes su URL, no la inventes: basta con el nombre.\n",
+  "engine": "ejs",
+  "template": "<div class=\"bloque <%= momento %>\" data-widget=\"apuntes-practica\"><span class=\"etiqueta\"><%= momento === 'tarea' ? 'En la tarea' : 'Antes de practicar' %></span>\n<p><% if (momento === 'tarea') { %>Aplicarás <%= que %> en <%= actividad_tipo %> «<%= actividad %>».<% } else { %>Asegúrate de poder <%= que %>. Después realiza <%= actividad_tipo %> «<%= actividad %>».<% } %></p>\n</div>\n<p><br></p>\n",
+  "selectors": "div.bloque[data-widget=\"apuntes-practica\"]",
+  "parameters": [
+    {
+      "name": "momento",
+      "title": "Momento",
+      "value": "practica",
+      "options": [
+        {
+          "l": "Antes de practicar",
+          "v": "practica"
+        },
+        {
+          "l": "En la tarea",
+          "v": "tarea"
+        }
+      ]
+    },
+    {
+      "name": "que",
+      "title": "Qué debe saber hacer o qué aplicará",
+      "value": "explicar …"
+    },
+    {
+      "name": "actividad_tipo",
+      "title": "Tipo de actividad",
+      "value": "el cuestionario",
+      "options": [
+        {
+          "l": "Cuestionario",
+          "v": "el cuestionario"
+        },
+        {
+          "l": "Tarea",
+          "v": "la tarea"
+        },
+        {
+          "l": "Ejercicio",
+          "v": "el ejercicio"
+        },
+        {
+          "l": "Vídeo",
+          "v": "el vídeo"
+        },
+        {
+          "l": "Foro",
+          "v": "el foro"
+        }
+      ]
+    },
+    {
+      "name": "actividad",
+      "title": "Nombre exacto de la actividad en el curso",
+      "value": "…"
+    }
+  ],
+  "contextmenu": [
+    {
+      "actions": "cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

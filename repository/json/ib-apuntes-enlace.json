@@ -1,0 +1,66 @@
+{
+  "key": "apuntes-enlace",
+  "name": "Apuntes · Enlace, descarga o vídeo con contexto",
+  "category": "apuntes",
+  "order": "a14",
+  "icon": "fa fa-external-link",
+  "instructions": "Enlace con texto descriptivo (nunca «aquí» ni «pincha aquí») y contexto: qué buscar, por qué y si es obligatorio. Los vídeos se enlazan (no se incrustan con iframe). Para archivos, indica tipo y tamaño.\n",
+  "engine": "ejs",
+  "template": "<p data-widget=\"apuntes-enlace\"><% if (tipo === 'video') { %>Vídeo: <% } else if (tipo === 'descarga') { %>Descarga: <% } %><a href=\"<%= url %>\"><%= texto %></a><% if (detalle) { %> (<%= detalle %>)<% } %>. <%= contexto %><% if (obligatorio) { %> <strong>Es obligatorio.</strong><% } %></p>\n<p><br></p>\n",
+  "selectors": "p[data-widget=\"apuntes-enlace\"]",
+  "parameters": [
+    {
+      "name": "tipo",
+      "title": "Tipo",
+      "value": "externo",
+      "options": [
+        {
+          "l": "Página o documento externo",
+          "v": "externo"
+        },
+        {
+          "l": "Vídeo",
+          "v": "video"
+        },
+        {
+          "l": "Archivo para descargar",
+          "v": "descarga"
+        }
+      ]
+    },
+    {
+      "name": "texto",
+      "title": "Texto del enlace (descriptivo)",
+      "value": "Documentación oficial de …"
+    },
+    {
+      "name": "url",
+      "title": "URL (https)",
+      "value": "https://"
+    },
+    {
+      "name": "detalle",
+      "title": "Detalle (p. ej. «YouTube, 6 min» o «PDF, 120 KB»)",
+      "value": ""
+    },
+    {
+      "name": "contexto",
+      "title": "Qué buscar y por qué",
+      "type": "textarea",
+      "value": "Consulta la sección «…»; la usarás en el ejercicio de …."
+    },
+    {
+      "name": "obligatorio",
+      "title": "Es obligatorio",
+      "type": "checkbox",
+      "value": false
+    }
+  ],
+  "contextmenu": [
+    {
+      "actions": "cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

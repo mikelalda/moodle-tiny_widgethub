@@ -1,0 +1,40 @@
+{
+  "key": "apuntes-imagen",
+  "name": "Apuntes · Imagen informativa",
+  "category": "apuntes",
+  "order": "a13",
+  "icon": "fa fa-picture-o",
+  "instructions": "Imagen que aporta información, con texto alternativo que describe esa información (no «imagen de…») y un pie que dice qué observar y la fuente. Sin imágenes decorativas.\n",
+  "template": "<figure data-widget=\"apuntes-imagen\">\n<img src=\"{{imagen}}\" alt=\"{{alt}}\">\n<figcaption>{{pie}}</figcaption>\n</figure>\n<p><br></p>\n",
+  "selectors": "figure[data-widget=\"apuntes-imagen\"]",
+  "parameters": [
+    {
+      "name": "imagen",
+      "title": "Imagen",
+      "type": "image",
+      "value": "",
+      "bind": "attr('src', 'img')"
+    },
+    {
+      "name": "alt",
+      "title": "Texto alternativo (la información que transmite)",
+      "type": "textarea",
+      "value": "Diagrama: …",
+      "bind": "attr('alt', 'img')"
+    },
+    {
+      "name": "pie",
+      "title": "Pie (qué observar y fuente)",
+      "type": "textarea",
+      "value": "… Fíjate en …. Fuente: elaboración propia.",
+      "bind": "text('figcaption')"
+    }
+  ],
+  "contextmenu": [
+    {
+      "actions": "cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

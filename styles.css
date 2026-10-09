@@ -799,3 +799,497 @@ div[data-widget=bs-carousel] .carousel-indicators {
 div[data-widget=bs-carousel] .carousel-indicators li::marker {
   content: none;
 }
+
+/* >>> APUNTES scorm2libro: inicio (generado por herramientas/adaptar_widgethub.py; no editar a mano) */
+/* Estilos de los apuntes (estilos_apuntes_moodle.css), limitados a .apuntes-moodle. Sin la regla «body» del original. */
+/* ============================================================
+   SISTEMA VISUAL PARA APUNTES MOODLE
+   Estilo basado en el tema "classic" de Rise 360
+   ============================================================
+
+   Colores:
+   - colorAccent: #00a1c0 (azul corporativo)
+   - color-text: #000
+   - color-background: #fff (claro) / #000 (oscuro)
+
+   Tipografías:
+   - Body: Roboto (400)
+   - Headings: Roboto (700)
+   - UI: Lato
+
+   Compatibilidad Moodle:
+   - Sin JavaScript
+   - Sin librerías externas
+   - CSS puro
+   - Funciona con HTML nativo
+*/
+
+/* ------------------------------------------------------------
+   Variables CSS
+   ------------------------------------------------------------
+   Centralizan colores y medidas para que el estilo sea
+   fácil de ajustar y consistente entre apartados.
+*/
+:root {
+  /* Colores corporativos (tema classic de Rise 360) */
+  --color-accent: #00a1c0;
+  --color-accent-dark: #007d96;
+  --color-accent-light: #e6f7fa;
+  --color-text: #000000;
+  --color-text-muted: #555555;
+  --color-background: #ffffff;
+  --color-background-muted: #f5f5f5;
+  --color-border: #e0e0e0;
+  --color-error: #de1d1d;
+  --color-success: #4caf50;
+  --color-warning: #ff9800;
+
+  /* Colores para bloques oscuros */
+  --color-code-bg: #1e1e1e;
+  --color-code-text: #d4d4d4;
+  --color-code-keyword: #569cd6;
+  --color-code-string: #ce9178;
+  --color-code-comment: #6a9955;
+  --color-code-number: #b5cea8;
+  --color-code-function: #dcdcaa;
+  --color-code-type: #4ec9b0;
+
+  /* Tipografías */
+  --font-body: 'Roboto', Arial, Helvetica, sans-serif;
+  --font-heading: 'Roboto', Arial, Helvetica, sans-serif;
+  --font-ui: 'Lato', Arial, Helvetica, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+
+  /* Medidas */
+  --block-padding: 30px;
+  --border-radius: 8px;
+  --max-width: 960px;
+}
+
+/* ------------------------------------------------------------
+   Contenedor principal
+   ------------------------------------------------------------
+*/
+.apuntes-moodle {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--block-padding) 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.apuntes-moodle *,
+.apuntes-moodle *::before,
+.apuntes-moodle *::after {
+  box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------
+   Tipografía base
+   ------------------------------------------------------------
+*/
+.apuntes-moodle p,
+.apuntes-moodle ul,
+.apuntes-moodle ol {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.apuntes-moodle p:last-child {
+  margin-bottom: 0;
+}
+
+.apuntes-moodle li {
+  margin-bottom: 0.5rem;
+}
+
+.apuntes-moodle strong {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.apuntes-moodle em {
+  font-style: italic;
+}
+
+.apuntes-moodle a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.apuntes-moodle a:hover {
+  color: var(--color-accent-dark);
+}
+
+/* ------------------------------------------------------------
+   Encabezados
+   ------------------------------------------------------------
+*/
+.apuntes-moodle h1 {
+  margin: 0 0 1.5rem 0;
+  padding: 0 0 1rem 0;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.apuntes-moodle h2 {
+  margin: 2rem 0 1rem 0;
+  padding: 0;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.apuntes-moodle h3 {
+  margin: 1.5rem 0 0.75rem 0;
+  padding: 0;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.apuntes-moodle h4,
+.apuntes-moodle h5,
+.apuntes-moodle h6 {
+  margin: 1rem 0 0.5rem 0;
+  padding: 0;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------------------
+   Código en línea
+   ------------------------------------------------------------
+*/
+.apuntes-moodle code {
+  padding: 0.15rem 0.35rem;
+  color: var(--color-text);
+  background: var(--color-background-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* ------------------------------------------------------------
+   Bloques de código
+   ------------------------------------------------------------
+*/
+.apuntes-moodle pre {
+  margin: 1rem 0 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--color-code-text);
+  background: var(--color-code-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.apuntes-moodle pre code {
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Clases de resaltado sintáctico */
+.apuntes-moodle pre code .kw { color: var(--color-code-keyword); }
+.apuntes-moodle pre code .type { color: var(--color-code-type); }
+.apuntes-moodle pre code .method { color: var(--color-code-function); }
+.apuntes-moodle pre code .str { color: var(--color-code-string); }
+.apuntes-moodle pre code .comment { color: var(--color-code-comment); font-style: italic; }
+.apuntes-moodle pre code .number { color: var(--color-code-number); }
+.apuntes-moodle pre code .plain { color: var(--color-code-text); }
+.apuntes-moodle pre code .output { color: var(--color-code-text); }
+
+/* ------------------------------------------------------------
+   Tablas
+   ------------------------------------------------------------
+*/
+.apuntes-moodle table {
+  display: block;
+  width: 100%;
+  margin: 1rem 0 1.5rem 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+.apuntes-moodle th,
+.apuntes-moodle td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.apuntes-moodle th {
+  color: #ffffff;
+  background: var(--color-accent);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.apuntes-moodle tr:nth-child(even) td {
+  background: var(--color-background-muted);
+}
+
+.apuntes-moodle tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ------------------------------------------------------------
+   Bloques pedagógicos
+   ------------------------------------------------------------
+*/
+/* Bloque base */
+.apuntes-moodle .bloque {
+  position: relative;
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  color: var(--color-text);
+  background: var(--color-background-muted);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--border-radius);
+}
+
+/* Idea clave */
+.apuntes-moodle .bloque.idea {
+  border-left-color: var(--color-accent);
+  background: var(--color-accent-light);
+}
+
+/* Ejemplo */
+.apuntes-moodle .bloque.ejemplo {
+  border-left-color: var(--color-success);
+  background: #f1f8f1;
+}
+
+/* Contraejemplo */
+.apuntes-moodle .bloque.contraejemplo {
+  border-left-color: var(--color-error);
+  background: #fff5f5;
+}
+
+/* Atención */
+.apuntes-moodle .bloque.atencion {
+  border-left-color: var(--color-warning);
+  background: #fff8e1;
+}
+
+/* Etiqueta */
+.apuntes-moodle .etiqueta {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------------------
+   Índice / mapa de contenido
+   ------------------------------------------------------------
+*/
+.apuntes-moodle .indice {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  background: var(--color-background-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+.apuntes-moodle .indice h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.apuntes-moodle .indice ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------
+   Listas de comprobación
+   ------------------------------------------------------------
+*/
+.apuntes-moodle .checklist {
+  padding-left: 1.5rem;
+}
+
+.apuntes-moodle .checklist li::marker {
+  color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------
+   Separadores
+   ------------------------------------------------------------
+*/
+.apuntes-moodle hr {
+  height: 1px;
+  margin: 2rem 0;
+  border: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--color-border) 20%, var(--color-accent) 50%, var(--color-border) 80%, transparent 100%);
+}
+
+/* ------------------------------------------------------------
+   Desplegables (details/summary)
+   ------------------------------------------------------------
+*/
+.apuntes-moodle details {
+  margin: 1rem 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  background: var(--color-background-muted);
+}
+
+.apuntes-moodle details summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.apuntes-moodle details summary:hover {
+  background: var(--color-accent-light);
+}
+
+.apuntes-moodle details[open] summary {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.apuntes-moodle details > * {
+  padding: 0.75rem 1rem;
+}
+
+/* ------------------------------------------------------------
+   Contenido H5P embebido
+   ------------------------------------------------------------
+*/
+.apuntes-moodle .h5p-container {
+  position: relative;
+  width: 100%;
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background: var(--color-background-muted);
+}
+
+.apuntes-moodle .h5p-container iframe {
+  display: block;
+  width: 100%;
+  border: 0;
+}
+
+/* ------------------------------------------------------------
+   Imágenes
+   ------------------------------------------------------------
+*/
+.apuntes-moodle img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--border-radius);
+}
+
+.apuntes-moodle figure {
+  margin: 1.5rem 0;
+}
+
+.apuntes-moodle figcaption {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   Citas
+   ------------------------------------------------------------
+*/
+.apuntes-moodle blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  color: var(--color-text-muted);
+  background: var(--color-background-muted);
+  border-left: 4px solid var(--color-accent);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   Adaptación responsive
+   ------------------------------------------------------------
+*/
+@media (max-width: 680px) {
+  .apuntes-moodle {
+    padding: 1rem 0;
+  }
+
+  .apuntes-moodle h1 {
+    font-size: 1.5rem;
+  }
+
+  .apuntes-moodle h2 {
+    font-size: 1.25rem;
+  }
+
+  .apuntes-moodle h3 {
+    font-size: 1.1rem;
+  }
+
+  .apuntes-moodle th,
+  .apuntes-moodle td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .apuntes-moodle pre {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* El informe de «Apuntes · Revisar la página» nunca se muestra al alumnado, aunque se guarde por descuido. */
+[data-apuntes-informe] {
+  display: none;
+}
+/* <<< APUNTES scorm2libro: fin */

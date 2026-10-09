@@ -1,0 +1,33 @@
+{
+  "key": "apuntes-checklist",
+  "name": "Apuntes · Lista de comprobación",
+  "category": "apuntes",
+  "order": "a11",
+  "icon": "fa fa-tasks",
+  "instructions": "Lista de comprobación previa a una tarea o práctica («Antes de entregar…»). Deja el título vacío si no quieres encabezado.\n",
+  "engine": "ejs",
+  "template": "<% if (titulo) { %><h2><%= titulo %></h2><% } %>\n<ul class=\"checklist\" data-widget=\"apuntes-checklist\">\n<% for (var i = 1; i <= n; i++) { %>\n  <li>He comprobado que … (<%= i %>).</li>\n<% } %>\n</ul>\n<p><br></p>\n",
+  "selectors": "ul.checklist[data-widget=\"apuntes-checklist\"]",
+  "parameters": [
+    {
+      "name": "titulo",
+      "title": "Encabezado (opcional)",
+      "value": "Antes de entregar la tarea"
+    },
+    {
+      "name": "n",
+      "title": "Número de comprobaciones",
+      "value": 3,
+      "min": 1,
+      "max": 12
+    }
+  ],
+  "contextmenu": [
+    {
+      "predicate": "li",
+      "actions": "moveup movedown insertafter | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

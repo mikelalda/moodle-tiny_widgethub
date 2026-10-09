@@ -1,0 +1,77 @@
+key: apuntes-revisar
+name: Apuntes · Revisar la página (informe)
+category: apuntes
+order: a90
+icon: fa fa-check-square-o
+instructions: >
+  Revisa el texto del editor con las reglas de los apuntes y escribe un informe al principio (un recuadro con borde
+  rojo discontinuo). El recuadro solo se ve en el editor: el alumnado no lo ve aunque se guarde. Corrige lo que indique,
+  vuelve a revisar y bórralo (o usa «Apuntes · Limpiar formato pegado»). No cambia nada más.
+filter: >
+  Array.prototype.slice.call(body.querySelectorAll('[data-apuntes-informe]')).forEach(function (el) { el.parentNode.removeChild(el); });
+  var problemas = [];
+  var avisos = [];
+  var todo = function (sel) { return Array.prototype.slice.call(body.querySelectorAll(sel)); };
+  var texto = function (el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); };
+  if (!body.querySelector('.apuntes-moodle')) {
+    avisos.push('No hay contenedor de los apuntes (div.apuntes-moodle): usa «Apuntes · Página nueva».');
+  }
+  var h1 = todo('h1');
+  if (h1.length > 1) { problemas.push('Hay ' + h1.length + ' títulos h1: debe haber uno solo.'); }
+  var nivel = 1;
+  todo('h1, h2, h3, h4, h5, h6').forEach(function (h) {
+    var n = parseInt(h.tagName.substring(1), 10);
+    if (n > nivel + 1) { problemas.push('El encabezado «' + texto(h).substring(0, 40) + '» salta de h' + nivel + ' a h' + n + '.'); }
+    nivel = n;
+  });
+  todo('img').forEach(function (img) {
+    var alt = (img.getAttribute('alt') || '').trim();
+    if (!alt) { problemas.push('Imagen sin texto alternativo: ' + (img.getAttribute('src') || '').split('/').pop()); }
+    else if (/^(imagen|image|foto|picture)\b|\.(png|jpe?g|gif|svg)$/i.test(alt)) { avisos.push('Texto alternativo poco informativo: «' + alt + '».'); }
+  });
+  var conEstilo = todo('.apuntes-moodle [style]').length;
+  if (conEstilo) { avisos.push(conEstilo + ' elementos con estilos en línea: usa «Apuntes · Limpiar formato pegado».'); }
+  todo('a').forEach(function (a) {
+    if (/^(aqu[ií]|pincha aqu[ií]|haz clic aqu[ií]|clic aqu[ií]|enlace|ir al enlace|click here|here)$/i.test(texto(a))) {
+      problemas.push('Enlace con texto no descriptivo: «' + texto(a) + '».');
+    }
+  });
+  todo('iframe').forEach(function (f) {
+    var src = f.getAttribute('src') || '';
+    if (src.indexOf('/h5p/') === -1 && src.indexOf('h5p') === -1) { problemas.push('Iframe que no es H5P: ' + src.substring(0, 60) + '.'); }
+    else if (src.indexOf('URL_DE_INCRUSTACION_H5P') !== -1) { problemas.push('H5P pendiente: el iframe aún tiene URL_DE_INCRUSTACION_H5P.'); }
+  });
+  todo('.h5p-container').forEach(function (c) {
+    var anterior = c.previousElementSibling;
+    if (!anterior || anterior.tagName !== 'P' || !texto(anterior)) { problemas.push('H5P sin texto alternativo visible justo antes.'); }
+    var marcador = c.querySelector('.h5p-placeholder');
+    if (marcador && !texto(marcador)) { problemas.push('H5P pendiente: el contenedor está vacío (inserta el H5P con el botón H5P del editor).'); }
+  });
+  todo('details').forEach(function (d) {
+    var palabras = texto(d).split(' ').length;
+    if (palabras > 150) { avisos.push('Desplegable con ' + palabras + ' palabras: lo esencial debe estar visible, no dentro de un desplegable.'); }
+  });
+  todo('table').forEach(function (t) {
+    if (!t.querySelector('th')) { avisos.push('Tabla sin encabezados (th).'); }
+  });
+  var html = body.innerHTML;
+  var marcas = (html.match(/TODO-IA/g) || []).length;
+  if (marcas) { problemas.push('Quedan ' + marcas + ' marcas TODO-IA.'); }
+  if (/<script|\son[a-z]+=/i.test(html)) { problemas.push('Hay JavaScript (script o atributos on…).'); }
+  var palabras = texto(body).split(' ').length;
+  if (!body.querySelector('.bloque.practica, .bloque.tarea')) { avisos.push('No hay conexión con la práctica (bloque «Antes de practicar» o «En la tarea»).'); }
+  var resumen = problemas.length + ' problemas, ' + avisos.length + ' avisos, ' + palabras + ' palabras';
+  var escapar = function (t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+  var lista = function (titulo, elementos) {
+    return elementos.length ? '<p><strong>' + titulo + '</strong></p><ul>' + elementos.map(function (t) { return '<li>' + escapar(t) + '</li>'; }).join('') + '</ul>' : '';
+  };
+  var caja = document.createElement('div');
+  caja.className = 'bloque atencion';
+  caja.setAttribute('data-apuntes-informe', '1');
+  caja.innerHTML = '<span class="etiqueta">Revisión de la página (bórrala antes de terminar)</span><p>' + resumen + '.' +
+    (problemas.length || avisos.length ? '' : ' Todo correcto.') + '</p>' + lista('Problemas', problemas) + lista('Avisos', avisos);
+  var destino = body.querySelector('.apuntes-moodle') || body;
+  destino.insertBefore(caja, destino.firstChild);
+  return [true, resumen + (problemas.length ? ': revisa el recuadro al principio de la página.' : '.')];
+author: Kit scorm2libro
+version: 1.0.0

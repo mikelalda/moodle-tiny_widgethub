@@ -1,0 +1,35 @@
+key: apuntes-indice
+name: Apuntes · Mapa del contenido
+category: apuntes
+order: a03
+icon: fa fa-list-ol
+instructions: >
+  Recuadro «En este capítulo» con los apartados del capítulo o de sus subcapítulos. Convierte cada elemento en un
+  enlace al apartado (ancla) o al subcapítulo correspondiente.
+engine: ejs
+template: |
+  <div class="indice" data-widget="apuntes-indice">
+    <h2><%= titulo %></h2>
+    <ol>
+    <% for (var i = 1; i <= n; i++) { %>
+      <li>Apartado <%= i %></li>
+    <% } %>
+    </ol>
+  </div>
+  <p><br></p>
+selectors: div.indice[data-widget="apuntes-indice"]
+parameters:
+  - name: titulo
+    title: Título del recuadro
+    value: En este capítulo
+    bind: text('h2')
+  - name: 'n'
+    title: Número de apartados
+    value: 4
+    min: 1
+    max: 12
+contextmenu:
+  - predicate: li
+    actions: moveup movedown insertafter | remove
+author: Kit scorm2libro
+version: 1.0.0

@@ -1,0 +1,31 @@
+key: apuntes-errores
+name: Apuntes · Tabla de errores frecuentes
+category: apuntes
+order: a07
+icon: fa fa-stethoscope
+instructions: Tabla de diagnóstico síntoma / causa probable / cómo comprobarlo / cómo corregirlo (regla 12).
+engine: ejs
+template: |
+  <table data-widget="apuntes-errores">
+    <thead>
+      <tr><th scope="col">Síntoma</th><th scope="col">Causa probable</th><th scope="col">Cómo comprobarlo</th><th scope="col">Cómo corregirlo</th></tr>
+    </thead>
+    <tbody>
+    <% for (var i = 1; i <= filas; i++) { %>
+      <tr><td>Síntoma <%= i %></td><td>Causa</td><td>Comprobación</td><td>Corrección</td></tr>
+    <% } %>
+    </tbody>
+  </table>
+  <p><br></p>
+selectors: table[data-widget="apuntes-errores"]
+parameters:
+  - name: filas
+    title: Número de filas
+    value: 3
+    min: 1
+    max: 15
+contextmenu:
+  - predicate: tbody tr
+    actions: moveup movedown insertafter | remove
+author: Kit scorm2libro
+version: 1.0.0

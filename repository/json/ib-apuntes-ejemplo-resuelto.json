@@ -1,0 +1,26 @@
+{
+  "key": "apuntes-ejemplo-resuelto",
+  "name": "Apuntes · Ejemplo resuelto por subobjetivos",
+  "category": "apuntes",
+  "order": "a06",
+  "icon": "fa fa-check-square-o",
+  "instructions": "Estructura de un ejemplo resuelto: problema, subobjetivos (qué se hace y por qué) y resultado esperado (reglas 9 y 10 de las reglas pedagógicas).\n",
+  "engine": "ejs",
+  "template": "<h2>Ejemplo resuelto: <%= titulo %></h2>\n<p><strong>Problema:</strong> qué se quiere conseguir y con qué datos.</p>\n<% for (var i = 1; i <= n; i++) { %>\n<h3>Subobjetivo <%= i %>: …</h3>\n<p>Qué se hace y por qué.</p>\n<% } %>\n<p><strong>Resultado esperado:</strong> …</p>\n<p><br></p>\n",
+  "parameters": [
+    {
+      "name": "titulo",
+      "title": "Tema del ejemplo",
+      "value": "…"
+    },
+    {
+      "name": "n",
+      "title": "Número de subobjetivos",
+      "value": 3,
+      "min": 1,
+      "max": 8
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

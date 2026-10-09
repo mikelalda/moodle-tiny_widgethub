@@ -1,0 +1,43 @@
+{
+  "key": "apuntes-codigo",
+  "name": "Apuntes · Bloque de código",
+  "category": "apuntes",
+  "order": "a09",
+  "icon": "fa fa-code",
+  "instructions": "Bloque de código textual y copiable sobre fondo oscuro. En el editor no se colorea por sintaxis: si el libro se reconstruye con scorm2libro, «construir» añade el resaltado automáticamente.\n",
+  "template": "<pre data-widget=\"apuntes-codigo\"><code class=\"language-{{lenguaje}}\">// Escribe o pega aquí el código</code></pre>\n<p><br></p>\n",
+  "selectors": "pre[data-widget=\"apuntes-codigo\"]",
+  "parameters": [
+    {
+      "name": "lenguaje",
+      "title": "Lenguaje",
+      "value": "java",
+      "options": [
+        "java",
+        "python",
+        "javascript",
+        "c",
+        "cpp",
+        "csharp",
+        "php",
+        "sql",
+        "bash",
+        "kotlin",
+        "go",
+        "css",
+        "json",
+        "html",
+        "text",
+        "output"
+      ],
+      "bind": "classRegex('language-(.*)', 'string', 'code')"
+    }
+  ],
+  "contextmenu": [
+    {
+      "actions": "cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

@@ -1,0 +1,22 @@
+key: apuntes-pagina
+name: Apuntes · Página nueva (contenedor y título)
+category: apuntes
+order: a01
+icon: fa fa-file-text-o
+instructions: >
+  Crea el contenedor <div class="apuntes-moodle"> con el título del capítulo. Todo el contenido del capítulo debe ir
+  dentro de este contenedor para que se apliquen los estilos de los apuntes. Úsalo solo en capítulos creados a mano en
+  Moodle: los importados con scorm2libro ya lo tienen.
+template: |
+  <div class="apuntes-moodle" data-widget="apuntes-pagina">
+  <h1>{{titulo}}</h1>
+  <p>Para qué sirve este capítulo: …</p>
+  </div>
+selectors: div.apuntes-moodle[data-widget="apuntes-pagina"]
+parameters:
+  - name: titulo
+    title: Título del capítulo (el mismo que el nombre del capítulo en el Libro)
+    value: Título del capítulo
+    bind: text('h1')
+author: Kit scorm2libro
+version: 1.0.0

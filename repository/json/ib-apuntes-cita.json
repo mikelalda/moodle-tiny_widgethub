@@ -1,0 +1,30 @@
+{
+  "key": "apuntes-cita",
+  "name": "Apuntes · Cita",
+  "category": "apuntes",
+  "order": "a17",
+  "icon": "fa fa-quote-left",
+  "instructions": "Cita textual con su autor y año.",
+  "template": "<blockquote data-widget=\"apuntes-cita\">\n<p>{{texto}}</p>\n<p>— {{autor}}</p>\n</blockquote>\n<p><br></p>\n",
+  "selectors": "blockquote[data-widget=\"apuntes-cita\"]",
+  "parameters": [
+    {
+      "name": "texto",
+      "title": "Texto de la cita",
+      "type": "textarea",
+      "value": "Toda armonía depende de una proporción."
+    },
+    {
+      "name": "autor",
+      "title": "Autor (año)",
+      "value": "Maruja Mallo (1946)"
+    }
+  ],
+  "contextmenu": [
+    {
+      "actions": "cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

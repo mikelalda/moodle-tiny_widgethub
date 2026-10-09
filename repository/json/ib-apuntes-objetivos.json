@@ -1,0 +1,28 @@
+{
+  "key": "apuntes-objetivos",
+  "name": "Apuntes · Objetivos de aprendizaje",
+  "category": "apuntes",
+  "order": "a02",
+  "icon": "fa fa-bullseye",
+  "instructions": "Encabezado «Objetivos» con una lista de objetivos observables. Usa verbos como identificar, explicar, diferenciar, aplicar, analizar o resolver; evita conocer, aprender o entender.\n",
+  "engine": "ejs",
+  "template": "<h2>Objetivos</h2>\n<p>Al terminar este capítulo podrás:</p>\n<ol data-widget=\"apuntes-objetivos\">\n<% for (var i = 1; i <= n; i++) { %>\n  <li>verbo observable + contenido + contexto (<%= i %>);</li>\n<% } %>\n</ol>\n<p><br></p>\n",
+  "selectors": "ol[data-widget=\"apuntes-objetivos\"]",
+  "parameters": [
+    {
+      "name": "n",
+      "title": "Número de objetivos",
+      "value": 3,
+      "min": 1,
+      "max": 6
+    }
+  ],
+  "contextmenu": [
+    {
+      "predicate": "li",
+      "actions": "moveup movedown insertafter | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

@@ -1,0 +1,53 @@
+{
+  "plugin_release": ">=1.4",
+  "key": "apuntes-comprobacion",
+  "name": "Apuntes · Comprobación rápida (sin H5P)",
+  "category": "apuntes",
+  "order": "a12",
+  "icon": "fa fa-question-circle",
+  "instructions": "Pregunta breve de autocomprobación con la solución explicada en un desplegable (permitido: «soluciones breves»). No corrige ni puntúa: para interactividad real usa un H5P y para evaluar, un Cuestionario. Marca la opción correcta y explica por qué cada opción es correcta o incorrecta.\n",
+  "engine": "ejs",
+  "template": "<div class=\"bloque practica\" data-widget=\"apuntes-comprobacion\"><span class=\"etiqueta\">Comprueba tu comprensión</span>\n<p><strong><%= pregunta %></strong></p>\n<ol>\n<% opciones.forEach(function(o) { %>  <li><%= o.texto %></li>\n<% }) %></ol>\n<details>\n<summary>Ver la solución</summary>\n<% opciones.forEach(function(o, i) { %><p><strong><%= i + 1 %>. <%= o.correcta ? 'Correcta' : 'Incorrecta' %>.</strong> <%= o.explicacion %></p>\n<% }) %></details>\n</div>\n<p><br></p>\n",
+  "selectors": "div.bloque[data-widget=\"apuntes-comprobacion\"]",
+  "parameters": [
+    {
+      "name": "pregunta",
+      "title": "Pregunta",
+      "type": "textarea",
+      "value": "¿Qué elemento del proceso comunicativo transforma la idea en un mensaje?"
+    },
+    {
+      "name": "opciones",
+      "title": "Opciones",
+      "type": "repeatable",
+      "min": 2,
+      "max": 6,
+      "fields": [
+        {
+          "name": "texto",
+          "title": "Texto de la opción",
+          "value": "Opción {{i}}"
+        },
+        {
+          "name": "correcta",
+          "title": "Es la correcta",
+          "type": "checkbox",
+          "value": false
+        },
+        {
+          "name": "explicacion",
+          "title": "Por qué es correcta o incorrecta",
+          "type": "textarea",
+          "value": "Explica por qué."
+        }
+      ]
+    }
+  ],
+  "contextmenu": [
+    {
+      "actions": "cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

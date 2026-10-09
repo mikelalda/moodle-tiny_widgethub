@@ -1,0 +1,26 @@
+{
+  "key": "apuntes-desplegable",
+  "name": "Apuntes · Desplegable (pista, solución o ampliación)",
+  "category": "apuntes",
+  "order": "a05",
+  "icon": "fa fa-caret-square-o-down",
+  "instructions": "Desplegable nativo <details>/<summary>, sin JavaScript. Úsalo solo para pistas, soluciones breves o ampliaciones: el contenido esencial debe quedar visible.\n",
+  "template": "<details data-widget=\"apuntes-desplegable\">\n  <summary>{{resumen}}</summary>\n  <p>Escribe aquí la pista, la solución breve o la ampliación.</p>\n</details>\n<p><br></p>\n",
+  "selectors": "details[data-widget=\"apuntes-desplegable\"]",
+  "parameters": [
+    {
+      "name": "resumen",
+      "title": "Texto visible del desplegable",
+      "value": "Ver pista",
+      "tooltip": "Ejemplos: Ver pista, Ver respuesta orientativa, Ampliación: …",
+      "bind": "text('summary')"
+    }
+  ],
+  "contextmenu": [
+    {
+      "actions": "printable | cut | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

@@ -1,0 +1,30 @@
+key: apuntes-objetivos
+name: Apuntes · Objetivos de aprendizaje
+category: apuntes
+order: a02
+icon: fa fa-bullseye
+instructions: >
+  Encabezado «Objetivos» con una lista de objetivos observables. Usa verbos como identificar, explicar, diferenciar,
+  aplicar, analizar o resolver; evita conocer, aprender o entender.
+engine: ejs
+template: |
+  <h2>Objetivos</h2>
+  <p>Al terminar este capítulo podrás:</p>
+  <ol data-widget="apuntes-objetivos">
+  <% for (var i = 1; i <= n; i++) { %>
+    <li>verbo observable + contenido + contexto (<%= i %>);</li>
+  <% } %>
+  </ol>
+  <p><br></p>
+selectors: ol[data-widget="apuntes-objetivos"]
+parameters:
+  - name: 'n'
+    title: Número de objetivos
+    value: 3
+    min: 1
+    max: 6
+contextmenu:
+  - predicate: li
+    actions: moveup movedown insertafter | remove
+author: Kit scorm2libro
+version: 1.0.0

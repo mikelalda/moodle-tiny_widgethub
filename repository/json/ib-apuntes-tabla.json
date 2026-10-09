@@ -1,0 +1,35 @@
+{
+  "key": "apuntes-tabla",
+  "name": "Apuntes · Tabla de consulta o comparación",
+  "category": "apuntes",
+  "order": "a08",
+  "icon": "fa fa-table",
+  "instructions": "Tabla con fila de encabezado accesible (th scope=\"col\"). Úsala solo para comparar, diagnosticar o consultar, nunca para maquetar.\n",
+  "engine": "ejs",
+  "template": "<table data-widget=\"apuntes-tabla\">\n  <thead>\n    <tr><% for (var c = 1; c <= columnas; c++) { %><th scope=\"col\">Encabezado <%= c %></th><% } %></tr>\n  </thead>\n  <tbody>\n  <% for (var f = 1; f <= filas; f++) { %>\n    <tr><% for (var c = 1; c <= columnas; c++) { %><td>…</td><% } %></tr>\n  <% } %>\n  </tbody>\n</table>\n<p><br></p>\n",
+  "selectors": "table[data-widget=\"apuntes-tabla\"]",
+  "parameters": [
+    {
+      "name": "columnas",
+      "title": "Número de columnas",
+      "value": 3,
+      "min": 2,
+      "max": 6
+    },
+    {
+      "name": "filas",
+      "title": "Número de filas",
+      "value": 3,
+      "min": 1,
+      "max": 20
+    }
+  ],
+  "contextmenu": [
+    {
+      "predicate": "tbody tr",
+      "actions": "moveup movedown insertafter | remove"
+    }
+  ],
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}

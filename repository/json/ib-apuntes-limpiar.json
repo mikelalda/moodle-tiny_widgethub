@@ -1,0 +1,11 @@
+{
+  "key": "apuntes-limpiar",
+  "name": "Apuntes · Limpiar formato pegado",
+  "category": "apuntes",
+  "order": "a91",
+  "icon": "fa fa-eraser",
+  "instructions": "Quita lo que suele traer el texto pegado desde Word, Google Docs o un SCORM dentro del contenedor de los apuntes: estilos en línea, fuentes y colores, spans y párrafos vacíos; cambia b/i por strong/em. Quita también el recuadro de «Revisar la página».\n",
+  "filter": "Array.prototype.slice.call(body.querySelectorAll('[data-apuntes-informe]')).forEach(function (el) { el.parentNode.removeChild(el); }); var raiz = body.querySelector('.apuntes-moodle') || body; var cambios = 0; Array.prototype.slice.call(raiz.querySelectorAll('[style]')).forEach(function (el) {\n  el.removeAttribute('style'); el.removeAttribute('data-mce-style'); cambios++;\n}); Array.prototype.slice.call(raiz.querySelectorAll('font, span:not([class])')).forEach(function (el) {\n  var padre = el.parentNode;\n  while (el.firstChild) { padre.insertBefore(el.firstChild, el); }\n  padre.removeChild(el); cambios++;\n}); [['b', 'strong'], ['i', 'em']].forEach(function (par) {\n  Array.prototype.slice.call(raiz.querySelectorAll(par[0])).forEach(function (el) {\n    var nuevo = document.createElement(par[1]);\n    while (el.firstChild) { nuevo.appendChild(el.firstChild); }\n    el.parentNode.replaceChild(nuevo, el); cambios++;\n  });\n}); Array.prototype.slice.call(raiz.querySelectorAll('p')).forEach(function (p, i, lista) {\n  var vacio = !p.textContent.replace(/ /g, ' ').trim() && !p.querySelector('img, iframe, br[data-mce-bogus]');\n  if (vacio && i < lista.length - 1) { p.parentNode.removeChild(p); cambios++; }\n}); return [cambios > 0, cambios > 0 ? 'Formato limpiado: ' + cambios + ' cambios.' : 'No había formato que limpiar.'];\n",
+  "author": "Kit scorm2libro",
+  "version": "1.0.0"
+}
