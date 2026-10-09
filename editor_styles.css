@@ -562,10 +562,11 @@ div[data-widget="bs-carousel"] .carousel-caption {
 /* Recuadro «H5P pendiente» del widget: se pulsa y luego el botón H5P del editor lo sustituye por el contenido. */
 .h5p-placeholder[data-apuntes-pendiente] {
   display: block !important;
+  height: auto !important;          /* el plugin H5P de Moodle fija 260 px y su logotipo de fondo */
   padding: 1rem;
   font: 14px/1.4 Arial, Helvetica, sans-serif;
-  color: #6b4500;
-  background: #fff8e1;
+  color: #6b4500 !important;
+  background: #fff8e1 !important;
   border: 2px dashed #e0a800;
   cursor: pointer;
 }
