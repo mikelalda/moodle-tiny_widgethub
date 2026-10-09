@@ -26,6 +26,7 @@ filter: >
   });
   todo('img').forEach(function (img) {
     var alt = (img.getAttribute('alt') || '').trim();
+    if (!(img.getAttribute('src') || '').trim()) { problemas.push('Imagen sin archivo (src vacío): elige la imagen o borra la figura.'); }
     if (!alt) { problemas.push('Imagen sin texto alternativo: ' + (img.getAttribute('src') || '').split('/').pop()); }
     else if (/^(imagen|image|foto|picture)\b|\.(png|jpe?g|gif|svg)$/i.test(alt)) { avisos.push('Texto alternativo poco informativo: «' + alt + '».'); }
   });

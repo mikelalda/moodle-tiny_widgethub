@@ -28,4 +28,4 @@ $plugin->component = 'tiny_widgethub';
 $plugin->release = '1.5.3+apuntes';
 $plugin->requires = 2023042400;  // Moodle 4.2+.
 $plugin->maturity = MATURITY_STABLE;
-$plugin->version = 2026082505;
+$plugin->version = 2026082506;
