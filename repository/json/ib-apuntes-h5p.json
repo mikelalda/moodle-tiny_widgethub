@@ -4,9 +4,9 @@
   "category": "apuntes",
   "order": "a10",
   "icon": "fa fa-puzzle-piece",
-  "instructions": "Pone un H5P dentro del contenedor de los apuntes, con su texto alternativo obligatorio (qué se practica; el apunte debe entenderse aunque el H5P no cargue). Dos formas de usarlo: 1) Crea el H5P con el editor de Moodle (Banco de contenido > Añadir), insértalo con el botón H5P del editor, selecciónalo y aplica este widget: lo envuelve en el contenedor. 2) Sin selección: pega la URL del H5P (un .h5p del banco de contenido o la URL de «Insertar» de una actividad H5P).\n",
-  "template": "<p>{{alternativo}}</p>\n<div class=\"h5p-container\" data-widget=\"apuntes-h5p\">\n<div class=\"h5p-placeholder\" contenteditable=\"false\">{{url}}</div>\n</div>\n<p><br></p>\n",
-  "insertquery": "r! .h5p-placeholder",
+  "instructions": "Pone un H5P en los apuntes, dentro de su contenedor y con el texto alternativo obligatorio (qué se practica: el apunte debe entenderse aunque el H5P no cargue). Si ya tienes la URL del H5P, pégala aquí. Si no: acepta, pulsa el recuadro «H5P pendiente» y después el botón H5P del editor; desde ahí puedes elegirlo del Banco de contenido (donde se crea con el editor de H5P de Moodle: Banco de contenido > Añadir), subir un .h5p o pegar una URL.\n",
+  "engine": "ejs",
+  "template": "<p><%= alternativo %></p>\n<div class=\"h5p-container\" data-widget=\"apuntes-h5p\">\n<div class=\"h5p-placeholder\" contenteditable=\"false\"<% if (!url) { %> data-apuntes-pendiente=\"1\"<% } %>><%= url || 'H5P pendiente: pulsa este recuadro y después el botón H5P del editor' %></div>\n</div>\n<p><br></p>\n",
   "selectors": "div.h5p-container[data-widget=\"apuntes-h5p\"]",
   "parameters": [
     {
@@ -17,10 +17,12 @@
     },
     {
       "name": "url",
-      "title": "URL del H5P (déjala vacía si vas a usar el botón H5P del editor)",
+      "title": "URL del H5P (opcional; si la dejas vacía, usa después el botón H5P del editor)",
       "value": "",
-      "when": "SELECT_MODE === 'insert'",
-      "bind": "text('.h5p-placeholder')"
+      "bind": {
+        "getValue": "(el) => {\n  const p = el.querySelector('.h5p-placeholder');\n  return p && !p.hasAttribute('data-apuntes-pendiente') ? p.textContent.trim() : '';\n}\n",
+        "setValue": "(el, v) => {\n  const p = el.querySelector('.h5p-placeholder');\n  if (!p) { return; }\n  if (v) { p.textContent = v; p.removeAttribute('data-apuntes-pendiente'); }\n  else { p.textContent = 'H5P pendiente: pulsa este recuadro y después el botón H5P del editor'; p.setAttribute('data-apuntes-pendiente', '1'); }\n}\n"
+      }
     }
   ],
   "contextmenu": [

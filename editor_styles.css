@@ -559,13 +559,15 @@ div[data-widget="bs-carousel"] .carousel-caption {
   pointer-events: none;
 }
 
-.apuntes-moodle .h5p-container:has(.h5p-placeholder:empty)::before {
-  content: "H5P pendiente: pon el cursor aquí e inserta el contenido con el botón H5P del editor (créalo antes en el Banco de contenido)";
-  display: block;
-  padding: 0.5rem 1rem;
-  font: 13px/1.4 Arial, Helvetica, sans-serif;
+/* Recuadro «H5P pendiente» del widget: se pulsa y luego el botón H5P del editor lo sustituye por el contenido. */
+.h5p-placeholder[data-apuntes-pendiente] {
+  display: block !important;
+  padding: 1rem;
+  font: 14px/1.4 Arial, Helvetica, sans-serif;
   color: #6b4500;
   background: #fff8e1;
+  border: 2px dashed #e0a800;
+  cursor: pointer;
 }
 
 /* Informe de «Apuntes · Revisar la página»: visible solo en el editor. */

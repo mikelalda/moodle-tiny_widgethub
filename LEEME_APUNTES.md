@@ -31,7 +31,7 @@ Esta copia de WidgetHub incluye, además del plugin original:
 - **Sitio sin WidgetHub**: copia esta carpeta en `lib/editor/tiny/plugins/widgethub` y completa la instalación desde
   Administración del sitio > Notificaciones. Los widgets y los estilos quedan activos sin más pasos.
 - **Sitio con WidgetHub ya instalado**: sustituye la carpeta y completa la actualización (la versión
-  `2026082503` fuerza la purga de cachés). Después, en la administración de WidgetHub, abre **Actualizar widgets**,
+  `2026082504` fuerza la purga de cachés). Después, en la administración de WidgetHub, abre **Actualizar widgets**,
   marca los widgets «apuntes-*» (estado «Nuevo») y actualízalos.
 
 No edites estos archivos a mano: cambia `estilos_apuntes_moodle.css` o `integracion_moodle/widgethub/*.yml` en el kit

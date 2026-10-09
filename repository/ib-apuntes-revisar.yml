@@ -45,7 +45,7 @@ filter: >
     var anterior = c.previousElementSibling;
     if (!anterior || anterior.tagName !== 'P' || !texto(anterior)) { problemas.push('H5P sin texto alternativo visible justo antes.'); }
     var marcador = c.querySelector('.h5p-placeholder');
-    if (marcador && !texto(marcador)) { problemas.push('H5P pendiente: el contenedor está vacío (inserta el H5P con el botón H5P del editor).'); }
+    if (marcador && (marcador.hasAttribute('data-apuntes-pendiente') || !texto(marcador))) { problemas.push('H5P pendiente: pulsa el recuadro «H5P pendiente» y después el botón H5P del editor.'); }
   });
   todo('details').forEach(function (d) {
     var palabras = texto(d).split(' ').length;

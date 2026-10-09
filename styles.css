@@ -1288,8 +1288,9 @@ div[data-widget=bs-carousel] .carousel-indicators li::marker {
   }
 }
 
-/* El informe de «Apuntes · Revisar la página» nunca se muestra al alumnado, aunque se guarde por descuido. */
-[data-apuntes-informe] {
+/* El informe de «Apuntes · Revisar la página» y un H5P pendiente nunca se muestran al alumnado, aunque se guarden. */
+[data-apuntes-informe],
+.h5p-placeholder[data-apuntes-pendiente] {
   display: none;
 }
 /* <<< APUNTES scorm2libro: fin */
