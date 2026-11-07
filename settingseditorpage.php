@@ -230,14 +230,16 @@ if ($texteditor !== false) {
     $texteditor->use_editor('id_widget_previewtiny', $editoroptions, $fpoptions);
 }
 
-// JavaScript initialization.
+// JavaScript initialization. The keys in use go in a data attribute: there can be
+// too many of them for js_call_amd, which warns above 1024 characters.
+echo html_writer::span('', 'd-none', ['id' => 'tiny_widgethub-usedkeys', 'data-keys' => json_encode(array_values($usedkeys))]);
 $PAGE->requires->js_call_amd(
     'tiny_widgethub/widgetsettings',
     'init',
     [
         [
             'id' => $widgetid,
-            'keys' => $usedkeys,
+            'keysselector' => '#tiny_widgethub-usedkeys',
             'selectors' => [
                 'json' => '#id_widget_json',
                 'yml' => '#id_widget_yml',

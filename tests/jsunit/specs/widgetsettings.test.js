@@ -112,6 +112,15 @@ describe('widget_settings', () => {
             expect(validation.msg).toContain(msg);
         });
 
+    it('Takes the keys in use from the data attribute named by keysselector', async () => {
+        createBody(null);
+        document.body.insertAdjacentHTML('beforeend', `<span id="usedkeys" data-keys='["key1","key2"]'></span>`);
+
+        const instance = WidgetSettings.init({ id: null, keysselector: '#usedkeys', selectors: commonSelectors });
+
+        expect(instance.keys).toEqual(['key1', 'key2']);
+    });
+
     it('Creates a new widget when id = null', async () => {
         const id = null;
         const usedKeys = ['key1', 'key2', 'key3'];

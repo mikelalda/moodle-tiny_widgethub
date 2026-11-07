@@ -345,11 +345,19 @@ export default class WidgetSettings {
 
     /**
      * Static entry point for Moodle AMD initialization.
-     * @param {{id: number, keys: string[], selectors: Selectors}} opts The options from the PHP side.
+     * @param {{id: number, keys?: string[], keysselector?: string, selectors: Selectors}} opts The options from the
+     *     PHP side. The keys of the other widgets can be many, so the page may hand them over instead in the
+     *     data-keys attribute (a JSON array) of the element that keysselector names.
+     * @returns {WidgetSettings}
      */
     static init(opts) {
+        if (opts.keysselector) {
+            const node = /** @type {HTMLElement | null} */ (document.querySelector(opts.keysselector));
+            opts = {...opts, keys: JSON.parse(node?.dataset.keys || '[]')};
+        }
         const instance = new WidgetSettings(opts);
         instance.render();
+        return instance;
     }
 
     /**
