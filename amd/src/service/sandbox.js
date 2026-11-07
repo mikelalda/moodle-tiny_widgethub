@@ -24,7 +24,7 @@
 
 import Config from 'core/config';
 import Templates from 'core/templates';
-import { genID } from '../util';
+import {genID} from '../util';
 
 /**
  * Generates a random request ID
@@ -152,7 +152,7 @@ export class Sandbox {
             jsrev: Config.jsrev || 1,
             lang: document.documentElement.lang || 'en'
         });
-        url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+        url = URL.createObjectURL(new Blob([html], {type: 'text/html'}));
         iframe.src = url;
         document.body.appendChild(iframe);
         return this._readyPromise;
@@ -210,7 +210,7 @@ export class Sandbox {
                 this._tasks.delete(requestId);
                 reject(new Error('Sandbox timeout'));
             }, Sandbox.EXECUTE_TIMEOUT);
-            this._tasks.set(requestId, { resolve, reject, timeout });
+            this._tasks.set(requestId, {resolve, reject, timeout});
             this._port2?.postMessage({
                 type,
                 payload,
@@ -305,7 +305,7 @@ export class RemoteDom extends Sandbox {
     async createRemoteDom(rootElement) {
         // Adds data-rvn-id to each node in the DOM
         this._addVIds(rootElement);
-        const response = await this.execute('vdom:create', { html: rootElement.outerHTML });
+        const response = await this.execute('vdom:create', {html: rootElement.outerHTML});
         this.vdomInstances.set(response.vid, rootElement);
         return response.vid;
     }
@@ -317,7 +317,7 @@ export class RemoteDom extends Sandbox {
      * @returns {Promise<{html: string, hasChanges: boolean, msg: string, error: string}>} The filtered html content
      */
     async applyWidgetFilters(html, filters) {
-        return this.execute('vdom:filter', { html, filters });
+        return this.execute('vdom:filter', {html, filters});
     }
 
     /**
@@ -370,7 +370,7 @@ export class RemoteDom extends Sandbox {
      * @returns {Promise<void>} The result of the code execution
      */
     async applyPatches(vid) {
-        const response = await this.execute('vdom:getpatches', { vid });
+        const response = await this.execute('vdom:getpatches', {vid});
         if (response.error) {
             throw new Error(response.error);
         }
@@ -527,96 +527,140 @@ export class RemoteDom extends Sandbox {
         }
 
         if (patch.type === 'attributes') {
-            if (!this._isSafeAttribute(patch.name, patch.value)) {
-                console.warn('Insecure attribute ignored', patch.name);
-                return;
-            }
-            if (patch.isDeleted || patch.value === undefined) {
-                node.removeAttribute(patch.name);
-            } else if (patch.name === 'class') {
-                if (patch.clsRemoved && patch.clsAdded) {
-                    if (patch.clsRemoved.length > 0) {
-                        node.classList.remove(...patch.clsRemoved);
-                    }
-                    if (patch.clsAdded.length > 0) {
-                        node.classList.add(...patch.clsAdded);
-                    }
-                } else {
-                    node.className = patch.value;
-                }
-            } else if (patch.name === 'style') {
-                const elem = /** @type {HTMLElement} */ (node);
-                if (patch.styleRemoved && patch.styleAdded) {
-                    for (const prop of patch.styleRemoved) {
-                        elem.style.removeProperty(prop);
-                    }
-                    for (const [prop, value] of patch.styleAdded) {
-                        if (this._isSafeStyle(prop, value)) {
-                            elem.style.setProperty(prop, value);
-                        } else {
-                            console.warn('Insecure style property ignored', prop);
-                        }
-                    }
-                } else {
-                    if (this._isSafeStyle('style', patch.value)) {
-                        elem.style.cssText = patch.value;
-                    } else {
-                        console.warn('Insecure style ignored', patch.value);
-                    }
-                }
-            } else {
-                node.setAttribute(patch.name, patch.value);
-            }
+            this._applyAttribute(node, patch);
         } else if (patch.type === 'text') {
-            // Update only the specific text node by its recorded child index,
-            // leaving sibling elements (icons, spans, etc.) untouched.
-            const idx = patch.textNodeIndex ?? -1;
-            const target = idx >= 0 ? node.childNodes[idx] : null;
-            if (target && target.nodeType === 3) {
-                target.textContent = patch.value;
-            } else {
-                // Fallback for patches without an index (single text-child elements).
-                node.textContent = patch.value;
-            }
+            this._applyText(node, patch);
         } else if (patch.type === 'nodes') {
-            // Smart reconciliation of children
-            const existingChildren = new Map();
-            const currentChildren = Array.from(node.childNodes);
-            currentChildren.forEach(child => {
-                if (child.nodeType === 1 && /** @type {Element} */ (child).hasAttribute('data-rvn-id')) {
-                    existingChildren.set(/** @type {Element} */(child).getAttribute('data-rvn-id'), child);
-                }
-            });
-            /** @type {Node[]} */
-            const newChildren = [];
-            patch.nodes?.forEach(vNode => {
-                let childNode;
-                // Check if it is a reference to an existing node { vId: '...' }
-                // @ts-ignore
-                if (vNode && typeof vNode === 'object' && vNode.vId) {
-                    // @ts-ignore
-                    childNode = existingChildren.get(vNode.vId);
-                    if (!childNode) {
-                        // Should not happen if protocol is correct, but fallback or error
-                        console.warn('Node reconciliation: Referenced node not found', vNode);
-                    }
-                } else {
-                    // It's a new node definition (string or VNode array)
-                    childNode = this._deserializeVNode(vNode);
-                }
-                if (childNode) {
-                    newChildren.push(childNode);
-                    node.appendChild(childNode); // Moves it to the end, effectively sorting them
-                }
-            });
-
-            // Remove children that are not in the new list
-            currentChildren.forEach(child => {
-                if (!newChildren.includes(child)) {
-                    child.remove();
-                }
-            });
+            this._applyNodes(node, patch);
         }
+    }
+
+    /**
+     * Applies an attribute mutation, ignoring unsafe attributes and styles.
+     * @param {Element} node - The element that changed
+     * @param {Patch} patch - The patch to apply
+     */
+    _applyAttribute(node, patch) {
+        if (!this._isSafeAttribute(patch.name, patch.value)) {
+            console.warn('Insecure attribute ignored', patch.name);
+            return;
+        }
+        if (patch.isDeleted || patch.value === undefined) {
+            node.removeAttribute(patch.name);
+        } else if (patch.name === 'class') {
+            this._applyClass(node, patch);
+        } else if (patch.name === 'style') {
+            this._applyStyle(/** @type {HTMLElement} */ (node), patch);
+        } else {
+            node.setAttribute(patch.name, patch.value);
+        }
+    }
+
+    /**
+     * Applies a change of the class attribute: the classes added and removed, or the whole value.
+     * @param {Element} node - The element that changed
+     * @param {Patch} patch - The patch to apply
+     */
+    _applyClass(node, patch) {
+        if (!patch.clsRemoved || !patch.clsAdded) {
+            node.className = patch.value;
+            return;
+        }
+        if (patch.clsRemoved.length > 0) {
+            node.classList.remove(...patch.clsRemoved);
+        }
+        if (patch.clsAdded.length > 0) {
+            node.classList.add(...patch.clsAdded);
+        }
+    }
+
+    /**
+     * Applies a change of the style attribute: the properties added and removed, or the whole value.
+     * @param {HTMLElement} elem - The element that changed
+     * @param {Patch} patch - The patch to apply
+     */
+    _applyStyle(elem, patch) {
+        if (!patch.styleRemoved || !patch.styleAdded) {
+            if (this._isSafeStyle('style', patch.value)) {
+                elem.style.cssText = patch.value;
+            } else {
+                console.warn('Insecure style ignored', patch.value);
+            }
+            return;
+        }
+        for (const prop of patch.styleRemoved) {
+            elem.style.removeProperty(prop);
+        }
+        for (const [prop, value] of patch.styleAdded) {
+            if (this._isSafeStyle(prop, value)) {
+                elem.style.setProperty(prop, value);
+            } else {
+                console.warn('Insecure style property ignored', prop);
+            }
+        }
+    }
+
+    /**
+     * Applies a text mutation.
+     * @param {Element} node - The element that changed
+     * @param {Patch} patch - The patch to apply
+     */
+    _applyText(node, patch) {
+        // Update only the specific text node by its recorded child index,
+        // leaving sibling elements (icons, spans, etc.) untouched.
+        const idx = patch.textNodeIndex ?? -1;
+        const target = idx >= 0 ? node.childNodes[idx] : null;
+        if (target && target.nodeType === 3) {
+            target.textContent = patch.value;
+        } else {
+            // Fallback for patches without an index (single text-child elements).
+            node.textContent = patch.value;
+        }
+    }
+
+    /**
+     * Applies a change of children, keeping the nodes that only moved.
+     * @param {Element} node - The element that changed
+     * @param {Patch} patch - The patch to apply
+     */
+    _applyNodes(node, patch) {
+        // Smart reconciliation of children
+        const existingChildren = new Map();
+        const currentChildren = Array.from(node.childNodes);
+        currentChildren.forEach(child => {
+            if (child.nodeType === 1 && /** @type {Element} */ (child).hasAttribute('data-rvn-id')) {
+                existingChildren.set(/** @type {Element} */(child).getAttribute('data-rvn-id'), child);
+            }
+        });
+        /** @type {Node[]} */
+        const newChildren = [];
+        patch.nodes?.forEach(vNode => {
+            let childNode;
+            // Check if it is a reference to an existing node { vId: '...' }
+            // @ts-ignore
+            if (vNode && typeof vNode === 'object' && vNode.vId) {
+                // @ts-ignore
+                childNode = existingChildren.get(vNode.vId);
+                if (!childNode) {
+                    // Should not happen if protocol is correct, but fallback or error
+                    console.warn('Node reconciliation: Referenced node not found', vNode);
+                }
+            } else {
+                // It's a new node definition (string or VNode array)
+                childNode = this._deserializeVNode(vNode);
+            }
+            if (childNode) {
+                newChildren.push(childNode);
+                node.appendChild(childNode); // Moves it to the end, effectively sorting them
+            }
+        });
+
+        // Remove children that are not in the new list
+        currentChildren.forEach(child => {
+            if (!newChildren.includes(child)) {
+                child.remove();
+            }
+        });
     }
 
     /**
@@ -633,6 +677,6 @@ export class RemoteDom extends Sandbox {
             rootElement.removeAttribute('data-rvn-id');
         }
         this.vdomInstances.delete(vid);
-        return this.execute('vdom:destroy', { vid });
+        return this.execute('vdom:destroy', {vid});
     }
 }

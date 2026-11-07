@@ -24,6 +24,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 use tiny_widgethub\local\storage\storagefactory;
 use tiny_widgethub\external\get_backup;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(\tiny_widgethub\external\get_backup::class)]
 /**
  * Unit tests for get_backup external function.
  *

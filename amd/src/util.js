@@ -70,6 +70,155 @@ const castValue = (val) => {
     throw new Error(`Invalid argument type: ${val}`);
 };
 
+// States of fnCallParser.
+const S_NAME = 0; // Reading function name
+const S_BEFORE = 1; // Between name and '('
+const S_ARG = 2; // Reading non-string argument
+const S_STRING = 3; // Inside a string literal
+const S_REGEX = 4; // Inside a regex literal
+const S_END = 5; // After ')'
+
+/**
+ * @typedef {object} FnCallParsing
+ * @property {string} expr - The expression being parsed
+ * @property {number} i - Position of the current character
+ * @property {number} state - One of the S_* states
+ * @property {string} currentArg - Text of the argument being read
+ * @property {string} quoteChar - Quote that opened the current string
+ * @property {boolean} pendingToken - Whether a string or regex argument has just ended
+ * @property {{name: string, args: any[]}} result - Name and arguments found so far
+ */
+
+/**
+ * Reads a character of the function name.
+ * @param {FnCallParsing} p
+ * @param {string} char
+ */
+function parseName(p, char) {
+    if (/[a-zA-Z_$]/.test(char)) {
+        p.result.name += char;
+    } else if (/[0-9]/.test(char)) {
+        if (p.result.name.length === 0) {
+            throw new Error("Name cannot start with number");
+        }
+        p.result.name += char;
+    } else if (char === '(') {
+        p.state = S_ARG;
+    } else if (/\s/.test(char) && p.result.name.length > 0) {
+        p.state = S_BEFORE;
+    } else if (!/\s/.test(char)) {
+        throw new Error("Illegal character in name: " + char);
+    }
+}
+
+/**
+ * Reads a character between the name and '('.
+ * @param {FnCallParsing} p
+ * @param {string} char
+ */
+function parseBefore(p, char) {
+    if (char === '(') {
+        p.state = S_ARG;
+    } else if (!/\s/.test(char)) {
+        throw new Error("Expected (");
+    }
+}
+
+/**
+ * Reads a character of the arguments, outside strings and regular expressions.
+ * @param {FnCallParsing} p
+ * @param {string} char
+ */
+function parseArg(p, char) {
+    if (p.result.name.trim() === '') {
+        throw new Error("Expected name");
+    }
+    if (char === "'" || char === '"') {
+        // If we just finished a string/regex and see another quote without a comma
+        if (p.pendingToken) {
+            throw new Error("Expected delimiter");
+        }
+        p.quoteChar = char;
+        p.state = S_STRING;
+        p.currentArg = '';
+    } else if (char === '/' && (p.currentArg.trim() === '')) {
+        // Enter Regex state if we see a / at the start of an arg
+        p.state = S_REGEX;
+        p.currentArg = char;
+    } else if (char === ',') {
+        if (!p.pendingToken) {
+            p.result.args.push(castValue(p.currentArg));
+        }
+        p.currentArg = '';
+        p.pendingToken = false;
+    } else if (char === ')') {
+        if (!p.pendingToken && (p.currentArg.trim() !== '' || p.result.args.length > 0)) {
+            p.result.args.push(castValue(p.currentArg));
+        }
+        p.state = S_END;
+    } else if (!p.pendingToken) {
+        p.currentArg += char;
+    } else if (!/\s/.test(char)) {
+        throw new Error("Expected delimiter");
+    }
+}
+
+/**
+ * Reads a character inside a string literal.
+ * @param {FnCallParsing} p
+ * @param {string} char
+ */
+function parseString(p, char) {
+    if (char === '\\' && p.i + 1 < p.expr.length && p.expr[p.i + 1] === p.quoteChar) {
+        p.currentArg += p.quoteChar;
+        p.i++;
+    } else if (char === p.quoteChar) {
+        p.result.args.push(p.currentArg);
+        p.currentArg = '';
+        p.pendingToken = true;
+        p.state = S_ARG;
+    } else {
+        p.currentArg += char;
+    }
+}
+
+/**
+ * Reads a character inside a regular expression literal, and its flags after the closing slash.
+ * @param {FnCallParsing} p
+ * @param {string} char
+ */
+function parseRegex(p, char) {
+    p.currentArg += char;
+    // Check for closing slash (not escaped)
+    if (char === '/' && p.expr[p.i - 1] !== '\\') {
+        // The flags (gim...) follow the closing slash: take them now.
+        let j = p.i + 1;
+        while (j < p.expr.length && /[a-z]/.test(p.expr[j])) {
+            p.currentArg += p.expr[j];
+            j++;
+        }
+        p.i = j - 1; // Advance main pointer
+        p.result.args.push(castValue(p.currentArg));
+        p.currentArg = '';
+        p.pendingToken = true;
+        p.state = S_ARG;
+    }
+}
+
+/**
+ * Reads a character after ')'.
+ * @param {FnCallParsing} p
+ * @param {string} char
+ */
+function parseEnd(p, char) {
+    if (!/\s/.test(char)) {
+        throw new Error("Trailing data");
+    }
+}
+
+/** The reader of each state, in the order of the S_* constants. */
+const FN_CALL_READERS = [parseName, parseBefore, parseArg, parseString, parseRegex, parseEnd];
+
 /**
  * Parses a function call like fnname(true, null, 'arg2\'etc', ...)
  * into an object {name: 'fnname', args: [true, null, "arg2'etc", ...]}
@@ -81,142 +230,70 @@ const castValue = (val) => {
  * @returns {{name: string, args: any[]}} An object with the function name and arguments
  */
 export function fnCallParser(expr) {
-    /** @type {{name: string, args: any[]}} **/
-    const result = { name: '', args: [] };
-
-    // Numerical State Constants
-    const S_NAME = 0; // Reading function name
-    const S_BEFORE = 1; // Between name and '('
-    const S_ARG = 2; // Reading non-string argument
-    const S_STRING = 3; // Inside a string literal
-    const S_REGEX = 4; // Inside a regex literal
-    const S_END = 5; // After ')'
-
-    let state = S_NAME;
-    let currentArg = '';
-    let quoteChar = '';
-    let pendingToken = false;
-    let i = 0;
-
-    while (i < expr.length) {
-        const char = expr[i];
-
-        switch (state) {
-            case S_NAME:
-                if (/[a-zA-Z_$]/.test(char)) {
-                    result.name += char;
-                }
-                else if (/[0-9]/.test(char)) {
-                    if (result.name.length === 0) {
-                        throw new Error("Name cannot start with number");
-                    }
-                    result.name += char;
-                } else if (char === '(') {
-                    state = S_ARG;
-                } else if (/\s/.test(char) && result.name.length > 0) {
-                    state = S_BEFORE;
-                } else if (!/\s/.test(char)) {
-                    throw new Error("Illegal character in name: " + char);
-                }
-                break;
-
-            case S_BEFORE:
-                if (char === '(') {
-                    state = S_ARG;
-                }
-                else if (!/\s/.test(char)) {
-                    throw new Error("Expected (");
-                }
-                break;
-
-            case S_ARG:
-                if (result.name.trim() === '') {
-                    throw new Error("Expected name");
-                }
-                if (char === "'" || char === '"') {
-                    // If we just finished a string/regex and see another quote without a comma
-                    if (pendingToken) {
-                        throw new Error("Expected delimiter");
-                    }
-                    quoteChar = char;
-                    state = S_STRING;
-                    currentArg = '';
-                } else if (char === '/' && (currentArg.trim() === '')) {
-                    // Enter Regex state if we see a / at the start of an arg
-                    state = S_REGEX;
-                    currentArg = char;
-                } else if (char === ',') {
-                    if (!pendingToken) {
-                        result.args.push(castValue(currentArg));
-                    }
-                    currentArg = '';
-                    pendingToken = false;
-                } else if (char === ')') {
-                    if (!pendingToken) {
-                        const trimmed = currentArg.trim();
-                        if (trimmed !== '' || result.args.length > 0) {
-                            result.args.push(castValue(currentArg));
-                        }
-                    }
-                    state = S_END;
-                } else {
-                    if (!pendingToken) {
-                        currentArg += char;
-                    } else if (!/\s/.test(char)) {
-                        throw new Error("Expected delimiter");
-                    }
-                }
-                break;
-
-            case S_STRING:
-                if (char === '\\' && i + 1 < expr.length && expr[i + 1] === quoteChar) {
-                    currentArg += quoteChar;
-                    i++;
-                } else if (char === quoteChar) {
-                    result.args.push(currentArg);
-                    currentArg = '';
-                    pendingToken = true;
-                    state = S_ARG;
-                } else {
-                    currentArg += char;
-                }
-                break;
-
-            case S_REGEX:
-                currentArg += char;
-                // Check for closing slash (not escaped)
-                if (char === '/' && expr[i - 1] !== '\\') {
-                    // Regex isn't finished yet! We need to capture flags (gim...)
-                    // We'll peek ahead in the next iterations of S_ARG via castValue
-                    // or stay here to grab letters? Let's stay to grab flags.
-                    let j = i + 1;
-                    while (j < expr.length && /[a-z]/.test(expr[j])) {
-                        currentArg += expr[j];
-                        j++;
-                    }
-                    i = j - 1; // Advance main pointer
-                    result.args.push(castValue(currentArg));
-                    currentArg = '';
-                    pendingToken = true;
-                    state = S_ARG;
-                }
-                break;
-
-            case S_END:
-                if (!/\s/.test(char)) {
-                    throw new Error("Trailing data");
-                }
-                break;
-        }
-        i++;
+    /** @type {FnCallParsing} */
+    const p = {
+        expr,
+        i: 0,
+        state: S_NAME,
+        currentArg: '',
+        quoteChar: '',
+        pendingToken: false,
+        result: {name: '', args: []},
+    };
+    while (p.i < expr.length) {
+        FN_CALL_READERS[p.state](p, expr[p.i]);
+        p.i++;
     }
 
-    if (state !== S_END) {
+    if (p.state !== S_END) {
         throw new Error("Incomplete call");
     }
-    return result;
+    return p.result;
 }
 
+
+/**
+ * The jQuery and Bootstrap scripts for an iframe that shows widgets: the URLs set
+ * in the plugin configuration, or else the versions that match this Moodle.
+ *
+ * @param {object} options
+ * @param {string} options.moodleVersion - Moodle release, as getMoodleVersion() gives it
+ * @param {string} options.jqUrl - Configured jQuery URL: empty to pick one, 'none' for no jQuery
+ * @param {string} options.bsUrl - Configured Bootstrap URL: empty to pick one, 'none' for no Bootstrap
+ * @param {string} options.wwwroot - Root URL of the site
+ * @returns {{jqUrl: string, jqIntegrity: string, bsUrl: string, bsIntegrity: string}}
+ */
+export function iframeLibraries({moodleVersion, jqUrl, bsUrl, wwwroot}) {
+    jqUrl = jqUrl.trim();
+    bsUrl = bsUrl.trim();
+    let jqIntegrity = '';
+    let bsIntegrity = '';
+
+    if (!bsUrl) {
+        if (moodleVersion.startsWith('4')) {
+            bsUrl = `https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js`;
+            bsIntegrity = 'sha256-GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k=';
+        } else {
+            bsUrl = `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js`;
+            bsIntegrity = 'sha256-5P1JGBOIxI7FBAvT/mb1fCnI5n/NhQKzNUuW7Hq0fMc=';
+        }
+    }
+
+    if (!jqUrl && moodleVersion.startsWith('4')) {
+        try {
+            // @ts-ignore
+            const path = window.requirejs.s.contexts._.config.paths.jquery;
+            jqUrl = path.startsWith('http') ? path : wwwroot + path;
+            if (!jqUrl.endsWith('.js')) {
+                jqUrl += '.js';
+            }
+        } catch (e) {
+            jqUrl = 'https://code.jquery.com/jquery-3.7.1.min.js';
+            jqIntegrity = 'sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=';
+        }
+    }
+    return {jqUrl, jqIntegrity, bsUrl, bsIntegrity};
+}
 
 /**
  * Simple fast string hash (djb2 variant)
@@ -224,12 +301,12 @@ export function fnCallParser(expr) {
  * @returns {number} non-negative 32-bit integer
  */
 export function hashCode(s) {
-    let hash = 5381; // magic initial prime
+    let hash = 5381; // Magic initial prime
     for (let i = 0; i < s.length; i++) {
-        hash = ((hash << 5) + hash) + s.charCodeAt(i); // hash * 33 + c
-        hash |= 0; // force 32-bit integer
+        hash = ((hash << 5) + hash) + s.charCodeAt(i); // Hash * 33 + c
+        hash |= 0; // Force 32-bit integer
     }
-    return hash >>> 0; // convert to non-negative
+    return hash >>> 0; // Convert to non-negative
 }
 
 /**
@@ -249,19 +326,19 @@ export function searchComp(str1, needle) {
 const Transformers = Object.freeze(
     Object.assign(Object.create(null), {
         /** @param {string} txt */
-        toUpperCase: function (txt) {
+        toUpperCase: function(txt) {
             return (txt + "").toUpperCase();
         },
         /** @param {string} txt */
-        toLowerCase: function (txt) {
+        toLowerCase: function(txt) {
             return (txt + "").toLowerCase();
         },
         /** @param {string} txt */
-        trim: function (txt) {
+        trim: function(txt) {
             return (txt + "").trim();
         },
         /** @param {string} txt */
-        ytId: function (txt) {
+        ytId: function(txt) {
             // Finds the youtubeId in a text
             const rx = /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|&v(?:i)?=))([^#&?]*).*/;
             const r = (txt || '').match(rx);
@@ -271,7 +348,7 @@ const Transformers = Object.freeze(
             return txt;
         },
         /** @param {string} txt */
-        vimeoId: function (txt) {
+        vimeoId: function(txt) {
             const regExp = /^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?(\d+)/;
             const match = new RegExp(regExp).exec(txt || "");
             if (match?.[5]) {
@@ -280,7 +357,7 @@ const Transformers = Object.freeze(
             return txt;
         },
         /** @param {string} txt */
-        serveGDrive: function (txt) {
+        serveGDrive: function(txt) {
             // Expecting https://drive.google.com/file/d/1DDUzcFrOlzWb3CBdFPJ1NCNXClvPbm5B/preview
             const res = (txt + "").match(/https:\/\/drive.google.com\/file\/d\/([a-zA-Z0-9_]+)\//);
             if (res?.length) {
@@ -290,11 +367,11 @@ const Transformers = Object.freeze(
             return txt;
         },
         /** @param {string} txt */
-        removeHTML: function (txt) {
+        removeHTML: function(txt) {
             return (txt || '').replace(/<[^>]*>?/gm, '');
         },
         /** @param {string} txt */
-        escapeHTML: function (txt) {
+        escapeHTML: function(txt) {
             return (txt || '').replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
@@ -302,12 +379,12 @@ const Transformers = Object.freeze(
                 .replace(/'/g, "&#039;");
         },
         /** @param {string} txt */
-        encodeHTML: function (txt) {
+        encodeHTML: function(txt) {
             // @ts-ignore
             return encodeURIComponent(txt || "");
         },
         /** @param {string} txt */
-        escapeQuotes: function (txt) {
+        escapeQuotes: function(txt) {
             return (txt || '').replace(/"/gm, "'");
         }
     }));
@@ -637,7 +714,7 @@ export function removeRndFromCtx(ctx, parameters) {
  */
 export function loadScriptAsync(editor, src, integrity) {
     return new Promise((resolve, reject) => {
-        const s = editor.dom.create('script', { src });
+        const s = editor.dom.create('script', {src});
         s.onload = () => resolve();
         s.referrerPolicy = 'no-referrer';
         if (integrity) {

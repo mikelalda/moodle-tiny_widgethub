@@ -18,6 +18,7 @@ namespace tiny_widgethub\local\storage;
 
 use tiny_widgethub\local\storage\widgetstorageimpl;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(\tiny_widgethub\local\storage\widgetstorageimpl::class)]
 /**
  * Unit tests for dbwidgetstorage with string-based author and version.
  *

@@ -14,13 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-import { getFormCtrl } from '../controller/form_ctrl';
-import { getListeners } from '../extension';
-import { getFilterSrv } from '../service/filter_service';
-import { getModalSrv } from '../service/modal_service';
-import { getTemplateSrv } from '../service/template_service';
-import { getUserStorage } from '../service/userstorage_service';
-import { removeRndFromCtx } from '../util';
+import {getFormCtrl} from '../controller/form_ctrl';
+import {getListeners} from '../extension';
+import {getFilterSrv} from '../service/filter_service';
+import {getModalSrv} from '../service/modal_service';
+import {getTemplateSrv} from '../service/template_service';
+import {getUserStorage} from '../service/userstorage_service';
+import {removeRndFromCtx} from '../util';
 
 /**
  * Tiny WidgetHub plugin.
@@ -79,7 +79,7 @@ export class WidgetParamsCtrl {
       this.modal = modal;
       const bodyElem = modal.body[0];
       const formElem = modal.body.find("form")[0];
-      modal.body.find(`a[href="#${data.idtabpane}_1"`).on("click", async () => {
+      modal.body.find(`a[href="#${data.idtabpane}_1"`).on("click", async() => {
          // Handle preview;
          const ctxFromDialogue = this.formCtrl.extractFormParameters(this.widget, formElem, true);
          await this.updatePreview(data.idtabpane, ctxFromDialogue);
@@ -87,7 +87,7 @@ export class WidgetParamsCtrl {
       this.formCtrl.attachRepeatable(bodyElem, this.widget, listenerTracker);
       this.formCtrl.attachPickers(bodyElem, listenerTracker);
       modal.footer.show();
-      modal.footer.find("button.tiny_widgethub-btn-secondary").on("click", async (evt) => {
+      modal.footer.find("button.tiny_widgethub-btn-secondary").on("click", async(evt) => {
          evt.preventDefault();
          // Go back to main menú
          // TODO detachPicker and detachRepeatable
@@ -96,7 +96,7 @@ export class WidgetParamsCtrl {
             await this.parentCtrl.handleAction();
          }
       });
-      modal.footer.find("button.tiny_widgethub-btn-primary").on("click", async (evt) => {
+      modal.footer.find("button.tiny_widgethub-btn-primary").on("click", async(evt) => {
          evt.preventDefault();
          // Insert widget and close modal.
          const ctxFromDialogue = this.formCtrl.extractFormParameters(this.widget, formElem, true);
@@ -211,7 +211,7 @@ export class WidgetParamsCtrl {
          }
          // Never store values that are obtained from $RND
          const ctxFiltered = removeRndFromCtx(ctxFromDialogue, this.widget.parameters);
-         recentList.unshift({ key: this.widget.key, p: ctxFiltered });
+         recentList.unshift({key: this.widget.key, p: ctxFiltered});
          if (recentList.length > 4) {
             recentList.splice(5, recentList.length - 4);
          }

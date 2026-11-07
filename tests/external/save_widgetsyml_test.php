@@ -24,6 +24,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 use tiny_widgethub\local\storage\storagefactory;
 use tiny_widgethub\external\save_widgetsyml;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(\tiny_widgethub\external\save_widgetsyml::class)]
 /**
  * Unit tests for save_widgetsyml external function.
  *

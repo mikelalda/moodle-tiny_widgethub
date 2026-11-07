@@ -22,9 +22,9 @@
  */
 
 import Config from '../common';
-import { get_strings } from 'core/str';
-import { RemoteDom } from './sandbox';
-const { component } = Config;
+import * as Str from 'core/str';
+import {RemoteDom} from './sandbox';
+const {component} = Config;
 
 /**
  * @typedef {{get_strings: (keys: {key: string, component: string}[]) => Promise<string[]>}} CoreStr
@@ -46,8 +46,8 @@ export class FilterSrv {
      */
     async applyWidgetFilter(filters, silent) {
         const translations = await this.coreStr.get_strings([
-            { key: 'filterres', component },
-            { key: 'nochanges', component }
+            {key: 'filterres', component},
+            {key: 'nochanges', component}
         ]);
         const remoteDom = await RemoteDom.getInstance();
         const html = this.editor.getContent();
@@ -88,7 +88,7 @@ const _instances = new Map();
  */
 export function getFilterSrv(editor) {
     if (!_instances.has(editor)) {
-        _instances.set(editor, new FilterSrv(editor, { get_strings }));
+        _instances.set(editor, new FilterSrv(editor, Str));
     }
     return _instances.get(editor);
 }

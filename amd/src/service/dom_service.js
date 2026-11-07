@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Widget } from '../options';
-import { setAttributeMCE } from '../util';
+import {Widget} from '../options';
+import {setAttributeMCE} from '../util';
 
 /**
  * Tiny WidgetHub plugin.

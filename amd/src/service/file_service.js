@@ -20,8 +20,8 @@
  * @copyright   2026 Josep Mulet Pol <pep.mulet@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-import { getFilePicker } from 'editor_tiny/options';
-import { displayFilepicker } from 'editor_tiny/utils';
+import {getFilePicker} from 'editor_tiny/options';
+import {displayFilepicker} from 'editor_tiny/utils';
 
 export class FileSrv {
     /**

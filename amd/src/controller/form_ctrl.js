@@ -22,11 +22,11 @@
  * @copyright   2026 Josep Mulet Pol <pep.mulet@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-import { getFileSrv } from '../service/file_service';
-import { getTemplateSrv } from '../service/template_service';
-import { getUserStorage } from '../service/userstorage_service';
-import { capitalize, cleanParameterName, genID, stream, toHexAlphaColor, toRgba } from '../util';
-import { Sandbox } from '../service/sandbox';
+import {getFileSrv} from '../service/file_service';
+import {getTemplateSrv} from '../service/template_service';
+import {getUserStorage} from '../service/userstorage_service';
+import {capitalize, cleanParameterName, genID, stream, toHexAlphaColor, toRgba} from '../util';
+import {Sandbox} from '../service/sandbox';
 
 const questionPopover = '{{#tooltip}}<button type="button" class="btn btn-link p-0" data-toggle="popover" data-trigger="hover" data-content="{{tooltip}}" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="{{tooltip}}"><i class="fa fas fa-question-circle text-info"></i></button>{{/tooltip}}';
 
@@ -199,7 +199,7 @@ export class FormCtrl {
          if (param.max) {
             minMax += ` max="${param.max}"`;
          }
-         markup = this.templateSrv.renderMustache(Templates.NUMERICTEMPLATE, { minMax: minMax, ...generalCtx });
+         markup = this.templateSrv.renderMustache(Templates.NUMERICTEMPLATE, {minMax: minMax, ...generalCtx});
       } else if (param.type === 'checkbox') {
          markup = this.templateSrv.renderMustache(Templates.CHECKBOXTEMPLATE, generalCtx);
       } else if (param.type === 'select' || param.type === 'autocomplete') {
@@ -213,10 +213,10 @@ export class FormCtrl {
                label = opt.l;
                value = opt.v;
             }
-            return { optionLabel: label, optionValue: value, selected: value === defaultValue };
+            return {optionLabel: label, optionValue: value, selected: value === defaultValue};
          });
          const tmpl = param.type === 'select' ? Templates.SELECTTEMPLATE : Templates.AUTOCOMPLETETEMPLATE;
-         markup = this.templateSrv.renderMustache(tmpl, { options, ...generalCtx });
+         markup = this.templateSrv.renderMustache(tmpl, {options, ...generalCtx});
       } else if (param.type === 'color') {
          // Value must be in hex form and must find alpha (0-1)
          const [hex, alpha] = toHexAlphaColor(generalCtx.defaultvalue);
@@ -249,7 +249,7 @@ export class FormCtrl {
             });
             itemControls = ul.outerHTML;
          }
-         markup = this.templateSrv.renderMustache(Templates.REPEATABLE, { ...generalCtx, itemControls });
+         markup = this.templateSrv.renderMustache(Templates.REPEATABLE, {...generalCtx, itemControls});
       } else if (param.type === 'static') {
          markup = this.templateSrv.renderMustache(Templates.STATICTEMPLATE, generalCtx);
       } else {
@@ -356,7 +356,7 @@ export class FormCtrl {
          if (mustSaveAll) {
             /** @type {Object.<string, any>}  */
             const previousAllData = this.storage.getFromLocal('saveall_data', {});
-            previousAllData[widget.name] = { ...ctx };
+            previousAllData[widget.name] = {...ctx};
             this.storage.setToLocal('saveall_data', previousAllData, true);
          }
       }
@@ -410,7 +410,7 @@ export class FormCtrl {
    attachFilePickerToElement(element, type, listenerTracker) {
       const canShowFilePicker = typeof this.fileSrv.getFilePicker(type) !== 'undefined';
       element.disabled = !canShowFilePicker;
-      const pickerHandler = async (/** @type {Event} */ evt) => {
+      const pickerHandler = async(/** @type {Event} */ evt) => {
          evt.preventDefault();
          // Blur the button before opening the YUI file picker to avoid
          // an aria-hidden conflict — YUI sets aria-hidden on page content
@@ -524,7 +524,7 @@ export class FormCtrl {
          watchedvars.push(varobj.name);
       }
 
-      const doUpdateVisibilities = async () => {
+      const doUpdateVisibilities = async() => {
          if (updatableComponents.length === 0) {
             return;
          }
@@ -602,7 +602,7 @@ export class FormCtrl {
                // Field value must be interpolated with the {{i}} placeholder
                let value = field.value;
                if (typeof (value) === 'string' && value.indexOf("{{i}}") >= 0) {
-                  value = that.templateSrv.renderMustache(value, { i: i });
+                  value = that.templateSrv.renderMustache(value, {i: i});
                }
                return that.createControlHTML(that.editor.id, field, value, cleanParamname, i);
             });
@@ -652,7 +652,7 @@ class RepeatableCtrl {
       /** @private */
       this._onNewItem = onNewItem;
       /** @private */
-      this._opts = { min: 1, ...opts };
+      this._opts = {min: 1, ...opts};
       /** @type {HTMLUListElement} */
       this._ul = document.createElement('ul');
       /** @private */

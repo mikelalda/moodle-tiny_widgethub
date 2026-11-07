@@ -21,22 +21,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.1', '8.2']
-        moodle-branch: ['MOODLE_402_STABLE', 'MOODLE_403_STABLE', 'MOODLE_404_STABLE', 'MOODLE_405_STABLE', 'MOODLE_500_STABLE', 'MOODLE_501_STABLE']
-        database: [mariadb]
-        exclude:
-          - php: '8.2'
-            moodle-branch: 'MOODLE_402_STABLE'
-          - php: '8.2'
-            moodle-branch: 'MOODLE_403_STABLE'
-          - php: '8.2'
-            moodle-branch: 'MOODLE_404_STABLE'
-          - php: '8.1'
-            moodle-branch: 'MOODLE_405_STABLE'
-          - php: '8.1'
-            moodle-branch: 'MOODLE_500_STABLE'
-          - php: '8.1'
-            moodle-branch: 'MOODLE_501_STABLE'
+        include:
+          - {php: '8.1', moodle-branch: 'MOODLE_402_STABLE', database: mariadb}
+          - {php: '8.1', moodle-branch: 'MOODLE_403_STABLE', database: mariadb}
+          - {php: '8.1', moodle-branch: 'MOODLE_404_STABLE', database: mariadb}
+          - {php: '8.2', moodle-branch: 'MOODLE_405_STABLE', database: mariadb}
+          - {php: '8.2', moodle-branch: 'MOODLE_500_STABLE', database: mariadb}
+          - {php: '8.3', moodle-branch: 'MOODLE_503_STABLE', database: mariadb}
 
     steps:
       - name: Check out repository code
@@ -83,7 +74,7 @@ jobs:
 
       # Run JS unit tests
       - name: Run JS unit tests
-        if: ${{ !cancelled() && matrix.php == '8.1' && matrix.moodle-branch == 'MOODLE_401_STABLE' }}
+        if: ${{ !cancelled() && matrix.moodle-branch == 'MOODLE_405_STABLE' }}
         run: |
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -123,9 +114,12 @@ jobs:
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci mustache
 
+      # The committed AMD builds are those of Moodle 4.5 and later; older branches build them differently.
+      # No --max-lint-warnings 0: ESLint 8 always warns that it skips the third-party
+      # amd/src/libs/*-lazy.js files listed in thirdpartylibs.xml. The code itself has no warnings.
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'master' }}
-        run: moodle-plugin-ci grunt --max-lint-warnings 0
+        if: ${{ !cancelled() && (matrix.moodle-branch == 'MOODLE_405_STABLE' || matrix.moodle-branch == 'MOODLE_503_STABLE') }}
+        run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests
         if: ${{ !cancelled() }}

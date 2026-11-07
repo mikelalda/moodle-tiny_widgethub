@@ -24,6 +24,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 use tiny_widgethub\local\storage\storagefactory;
 use tiny_widgethub\external\get_widgetsdocuments;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(\tiny_widgethub\external\get_widgetsdocuments::class)]
 /**
  * Unit tests for get_widgetsdocuments external function.
  *

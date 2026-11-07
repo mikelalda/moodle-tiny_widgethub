@@ -16,16 +16,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-import { getWidgetDict } from './options';
-import { getDomSrv } from './service/dom_service';
-import { getModalSrv } from './service/modal_service';
-import { getWidgetPropertiesCtrl } from './controller/widgetproperties_ctrl';
-import { getMenuItemProviders, getListeners } from './extension';
-import { get_strings } from 'core/str';
+import {getWidgetDict} from './options';
+import {getDomSrv} from './service/dom_service';
+import {getModalSrv} from './service/modal_service';
+import {getWidgetPropertiesCtrl} from './controller/widgetproperties_ctrl';
+import {getMenuItemProviders, getListeners} from './extension';
+import {get_strings} from 'core/str';
 import Common from './common';
-import { prefixItemsWith } from './util';
+import {prefixItemsWith} from './util';
 
-const { component, componentName } = Common;
+const {component, componentName} = Common;
 
 /**
  * Tiny WidgetHub plugin.
@@ -104,7 +104,7 @@ export function matchesCondition(condition, value) {
  * @param {{widget: import('./options').Widget | undefined, html: string | undefined}} widgetCutClipboard
  * @const widgetCutClipboard
  */
-export const predefinedActionsFactory = function (editor, domSrv, modalSrv, widgetCutClipboard) {
+export const predefinedActionsFactory = function(editor, domSrv, modalSrv, widgetCutClipboard) {
     /** @type {Record<string, Function>} */
     const factory = Object.create(null);
     Object.assign(factory, {
@@ -288,7 +288,7 @@ export const predefinedActionsFactory = function (editor, domSrv, modalSrv, widg
          * Opens the preview modal for the selected widget
          * @param {PathResult} path
          */
-        preview: async (path) => {
+        preview: async(path) => {
             const el = path?.elem;
             if (!el || !path?.widget) {
                 return;
@@ -405,7 +405,7 @@ export class ContextActionsManager {
 
     async init() {
         if (!this.staticInitPromise) {
-            this.staticInitPromise = (async () => {
+            this.staticInitPromise = (async() => {
                 this.i18n = await this.loadStrings();
                 this.predefinedActions = predefinedActionsFactory(this.editor, this.domSrv, this.modalSrv, this.widgetCutClipboard);
                 registerIcons(this.editor);
@@ -434,7 +434,7 @@ export class ContextActionsManager {
             'properties', 'unwrap', 'moveup', 'movedown', 'moveafter',
             'movebefore', 'insert', 'remove', 'printable', 'cut', 'paste', 'preview'
         ];
-        const values = await this.translateSrv.get_strings(keys.map(key => ({ key, component })));
+        const values = await this.translateSrv.get_strings(keys.map(key => ({key, component})));
         // @ts-ignore
         return Object.fromEntries(keys.map((k, i) => [k, values[i]]));
     }
@@ -498,7 +498,7 @@ export class ContextActionsManager {
         /**
          * @param {PathResult} [path]
          */
-        return async (path) => {
+        return async(path) => {
             path = path ?? this.ctx.path;
             if (!path?.widget) {
                 // Brings the selection to the Tiny's iframe if it is embeded inside inner iframes.
@@ -644,14 +644,14 @@ export class ContextActionsManager {
             return menuItems;
         }
         if (path.widget.hasBindings()) {
-            this.ctx.actionPaths.modal.push({ ...path });
+            this.ctx.actionPaths.modal.push({...path});
             menuItems.push('modal');
         }
         // Unwrap action always to the end
         if (path.widget.unwrap) {
             menuItems.push('unwrap');
             this.ctx.actionPaths.unwrap = this.ctx.actionPaths.unwrap || [];
-            this.ctx.actionPaths.unwrap.push({ ...path });
+            this.ctx.actionPaths.unwrap.push({...path});
         }
         // Now look for contextmenu property in widget definition
         /** @type {import('./options').Action[] | undefined} */
@@ -700,7 +700,7 @@ export class ContextActionsManager {
             newActionsToAdd.filter(e => e !== '|').forEach((/** @type {string} */ e) => {
                 path.targetElement = targetElem;
                 this.ctx.actionPaths[e] = this.ctx.actionPaths[e] || [];
-                this.ctx.actionPaths[e].push({ ...path, text: cm.description });
+                this.ctx.actionPaths[e].push({...path, text: cm.description});
             });
         });
         return menuItems;
@@ -742,7 +742,7 @@ export class ContextActionsManager {
             if (parentElem) {
                 const p = this.domSrv.findWidgetOnEventPath(this.widgetList, parentElem);
                 if (p && p.widget?.key === widget.prop('bubbles')) {
-                    parentPath = { ...p };
+                    parentPath = {...p};
                 }
             }
         }
@@ -848,7 +848,7 @@ export function getContextMenuManager(editor) {
     let instance = contextMenuManagerInstances.get(editor);
     if (!instance) {
         // @ts-ignore
-        instance = new ContextActionsManager(editor, getDomSrv(), getModalSrv(), { get_strings }, widgetCutClipboard);
+        instance = new ContextActionsManager(editor, getDomSrv(), getModalSrv(), {get_strings}, widgetCutClipboard);
         contextMenuManagerInstances.set(editor, instance);
     }
     return instance;

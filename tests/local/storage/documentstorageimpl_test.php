@@ -24,6 +24,8 @@
 
 namespace tiny_widgethub\local\storage;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(\tiny_widgethub\local\storage\documentstorageimpl::class)]
+#[\PHPUnit\Framework\Attributes\Group('tiny_widgethub')]
 /**
  * Unit tests for documentstorageimpl.
  *

@@ -22,8 +22,8 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 /** @ts-ignore */
-import { call as fetchMany } from 'core/ajax';
-import { nullProtofy } from '../util';
+import {call as fetchMany} from 'core/ajax';
+import {nullProtofy} from '../util';
 
 export class ExternalService {
     static USER_PREFS_KEY = 'tiny_widgethub_userprefs';
@@ -59,7 +59,7 @@ export class ExternalService {
     async getEditorData() {
         try {
             const data = await this._fetch('tiny_widgethub_get_editordata',
-                nullProtofy({ contextid: this.contextid }));
+                nullProtofy({contextid: this.contextid}));
             return {
                 widgetlist: JSON.parse(data.widgetlist),
                 partials: JSON.parse(data.partials),
@@ -85,7 +85,7 @@ export class ExternalService {
      */
     deleteWidgets(ids) {
         return this._fetch('tiny_widgethub_delete_widgets',
-            nullProtofy({ contextid: this.contextid, ids }));
+            nullProtofy({contextid: this.contextid, ids}));
     }
 
     /**
@@ -96,7 +96,7 @@ export class ExternalService {
      */
     getWidgetDocuments(ids, includejson = true, includeother = false) {
         return this._fetch('tiny_widgethub_get_widgetsdocuments',
-            nullProtofy({ contextid: this.contextid, ids, includejson, includeother }));
+            nullProtofy({contextid: this.contextid, ids, includejson, includeother}));
     }
 
     /**

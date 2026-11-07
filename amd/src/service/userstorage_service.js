@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-import { getEditorOptions, getUserPrefs } from '../options';
+import {getEditorOptions, getUserPrefs} from '../options';
 import Common from '../common';
-import { getExternalService } from './external_service';
-const { component } = Common;
+import {getExternalService} from './external_service';
+const {component} = Common;
 
 /**
  * Tiny WidgetHub plugin.
@@ -56,7 +56,7 @@ export class UserStorageSrv {
         /**
          * @type {Record<string, any>}
          */
-        this._localStore = Object.assign(Object.create(null), { values: Object.create(null) });
+        this._localStore = Object.assign(Object.create(null), {values: Object.create(null)});
         /**
          * @type {Record<string, any>}
          */
@@ -64,7 +64,7 @@ export class UserStorageSrv {
         /**
          * @type {Record<string, any>}
          */
-        this._sessionStore = Object.assign(Object.create(null), { searchtext: '' });
+        this._sessionStore = Object.assign(Object.create(null), {searchtext: ''});
         this.loadStore();
     }
 

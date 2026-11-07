@@ -22,15 +22,15 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import { fnCallParser, safeAwait } from './util';
-import { RemoteDom } from './service/sandbox';
+import {fnCallParser, safeAwait} from './util';
+import {RemoteDom} from './service/sandbox';
 
 /**
  * @param {*} value
  * @param {string | undefined} type
  * @returns {*}
  */
-export const performCasting = function (value, type) {
+export const performCasting = function(value, type) {
     if (!type || typeof value === type) {
         return value;
     }
@@ -69,7 +69,7 @@ export const performCasting = function (value, type) {
  * @param {unknown} a
  * @param {unknown} b
  */
-const xor = function (a, b) {
+const xor = function(a, b) {
     return !a !== !b;
 };
 
@@ -79,7 +79,7 @@ const xor = function (a, b) {
  * @param {string} replacement
  * @returns {string}
  */
-const replaceStrPart = function (str, match, replacement) {
+const replaceStrPart = function(str, match, replacement) {
     if (!match?.indices) {
         console.error("RegExp match does not include indices");
         return str;
@@ -95,7 +95,7 @@ const replaceStrPart = function (str, match, replacement) {
  * @param {string} replacement
  * @returns {string}
  */
-const getValueFromRegex = function (regexExpr, replacement) {
+const getValueFromRegex = function(regexExpr, replacement) {
     if (regexExpr instanceof RegExp) {
         regexExpr = regexExpr.source;
     }
@@ -672,7 +672,7 @@ export class BindingsAdapter {
             /** @type {string | {name: string, args: Array<any>}} */
             if (typeof param.bind === 'string') {
                 // Retrieve the value of this parameter from the Local Dom
-                const { name, args } = fnCallParser(param.bind);
+                const {name, args} = fnCallParser(param.bind);
                 const bindingFactory = bindingsFactoryAPI[name];
                 if (!bindingFactory) {
                     console.error("Binding function not found: ", name);
@@ -681,7 +681,7 @@ export class BindingsAdapter {
                 const binder = bindingFactory(this.root, ...args);
                 this.localBindings.set(param.name, binder);
                 const value = binder.getValue();
-                extractedValues[param.name] = { name: param.name, value, param };
+                extractedValues[param.name] = {name: param.name, value, param};
             } else if (BindingsAdapter.hasFieldBindings(param)) {
                 // Local dom retrieval only.
                 /** @type {any[]} */
@@ -692,12 +692,12 @@ export class BindingsAdapter {
                         .filter(field => typeof field.bind === 'string')
                         .map(field => {
                             // @ts-ignore
-                            const { name, args } = fnCallParser(field.bind);
+                            const {name, args} = fnCallParser(field.bind);
                             const bindingFactory = bindingsFactoryAPI[name];
                             if (!bindingFactory) {
                                 console.error("Binding function not found: ", name);
                             }
-                            return [field.name, { bindingFactory, args }];
+                            return [field.name, {bindingFactory, args}];
                         }));
                 this.localRepetableBindings.set(param.name, parsedBindings);
                 // Find all items
@@ -712,14 +712,14 @@ export class BindingsAdapter {
                         if (!bindingInfo) {
                             return;
                         }
-                        const { bindingFactory, args } = bindingInfo;
+                        const {bindingFactory, args} = bindingInfo;
                         const binder = bindingFactory(item, ...args);
                         const value = binder.getValue();
                         valueObject[field.name] = value;
                     });
                     valuesArray.push(valueObject);
                 });
-                extractedValues[param.name] = { name: param.name, value: valuesArray, param };
+                extractedValues[param.name] = {name: param.name, value: valuesArray, param};
             }
         }
         return extractedValues;
@@ -758,7 +758,7 @@ export class BindingsAdapter {
             }
             const value = response?.value;
             if (param?.name !== undefined && value !== undefined) {
-                extractedValues[param.name] = { name: param.name, value, param };
+                extractedValues[param.name] = {name: param.name, value, param};
             }
         }
         return extractedValues;
@@ -815,7 +815,7 @@ export class BindingsAdapter {
                     if (!bindingInfo) {
                         return;
                     }
-                    const { bindingFactory, args } = bindingInfo;
+                    const {bindingFactory, args} = bindingInfo;
                     const binder = bindingFactory(item, ...args);
                     const valForItemAndField = valForItem[field.name];
                     const oldValueForItemAndField = oldValueForItem[field.name];

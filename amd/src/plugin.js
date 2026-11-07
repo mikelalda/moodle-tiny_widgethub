@@ -25,27 +25,27 @@
  * @typedef {*} TinyMCE
  **/
 
-import { getTinyMCE } from 'editor_tiny/loader';
-import { getPluginMetadata } from 'editor_tiny/utils';
+import {getTinyMCE} from 'editor_tiny/loader';
+import {getPluginMetadata} from 'editor_tiny/utils';
 
 import Common from './common';
-import { register as registerOptions, setWidgetDefinitions } from './options';
+import {register as registerOptions, setWidgetDefinitions} from './options';
 
 
-import { getSetup as getCommandSetup } from './commands';
+import {getSetup as getCommandSetup} from './commands';
 import * as Configuration from './configuration';
-import { subscribe } from './extension';
+import {subscribe} from './extension';
 
 // Register extensions
 import './extension/dependencies';
-import { refactorListener } from './extension/refactorbs5';
+import {refactorListener} from './extension/refactorbs5';
 subscribe('onInit', refactorListener);
 
-const { component, pluginName, documentationUrl } = Common;
+const {component, pluginName, documentationUrl} = Common;
 
 // Setup the plugin.
 // eslint-disable-next-line no-async-promise-executor
-export default new Promise(async (resolve) => {
+export default new Promise(async(resolve) => {
     const [
         tinyMCE,
         pluginMetadata,

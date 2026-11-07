@@ -23,18 +23,17 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import Notification from 'core/notification';
-import { CmEditor, YAML } from './libs/cmeditor-lazy';
+import {CmEditor, YAML} from './libs/cmeditor-lazy';
 // eslint-disable-next-line camelcase
-import { get_string } from 'core/str';
-import { getTemplateSrv, createDefaultsForParam } from './service/template_service';
-import { applyPartials, getGlobalConfig, getMoodleVersion } from './options';
+import {get_string} from 'core/str';
+import {getTemplateSrv, createDefaultsForParam} from './service/template_service';
+import {applyPartials, getGlobalConfig, getMoodleVersion} from './options';
 import common from './common';
-import { compareVersion, sanitizeSvg } from './util';
-import { getInstanceForElementId } from 'editor_tiny/editor';
+import {compareVersion, iframeLibraries, sanitizeSvg} from './util';
+import {getInstanceForElementId} from 'editor_tiny/editor';
 
 
-
-const { component } = common;
+const {component} = common;
 const randomKey = Math.random().toString(36).substring(2, 8);
 const DEFAULT_DOC =
     `key: username_sample-${randomKey}
@@ -295,18 +294,18 @@ export default class WidgetSettings {
 
         // Configuration for validation
         const nodeDefinitions = {
-            editorAreayml: { selector: '#p-yml > div', type: HTMLDivElement, required: true },
-            ymlArea: { selector: this.selectors.yml, type: HTMLTextAreaElement, required: true },
-            jsonArea: { selector: this.selectors.json, type: HTMLTextAreaElement, required: true },
-            partialArea: { selector: this.selectors.partials, type: HTMLTextAreaElement, required: true },
-            saveBtn: { selector: this.selectors.save, type: HTMLInputElement, required: true },
-            saveCloseBtn: { selector: this.selectors.saveandclose, type: HTMLInputElement, required: true },
-            refreshBtn: { selector: this.selectors.refreshbtn, type: HTMLButtonElement, required: false },
-            previewTiny: { selector: '#p-tiny > textarea', type: HTMLTextAreaElement, required: false },
-            previewPanel: { selector: '#p-preview > iframe', type: HTMLIFrameElement, required: false },
-            previewLog: { selector: '#p-log', type: HTMLDivElement, required: true },
-            alertLog: { selector: '#id_widget_previewlog', type: HTMLDivElement, required: true },
-            clearLogBtn: { selector: '#id_widget_clearlog', type: HTMLButtonElement, required: true },
+            editorAreayml: {selector: '#p-yml > div', type: HTMLDivElement, required: true},
+            ymlArea: {selector: this.selectors.yml, type: HTMLTextAreaElement, required: true},
+            jsonArea: {selector: this.selectors.json, type: HTMLTextAreaElement, required: true},
+            partialArea: {selector: this.selectors.partials, type: HTMLTextAreaElement, required: true},
+            saveBtn: {selector: this.selectors.save, type: HTMLInputElement, required: true},
+            saveCloseBtn: {selector: this.selectors.saveandclose, type: HTMLInputElement, required: true},
+            refreshBtn: {selector: this.selectors.refreshbtn, type: HTMLButtonElement, required: false},
+            previewTiny: {selector: '#p-tiny > textarea', type: HTMLTextAreaElement, required: false},
+            previewPanel: {selector: '#p-preview > iframe', type: HTMLIFrameElement, required: false},
+            previewLog: {selector: '#p-log', type: HTMLDivElement, required: true},
+            alertLog: {selector: '#id_widget_previewlog', type: HTMLDivElement, required: true},
+            clearLogBtn: {selector: '#id_widget_clearlog', type: HTMLButtonElement, required: true},
         };
 
         /** @type {Partial<SettingsNodes> & Record<string, any>} */
@@ -438,7 +437,7 @@ export default class WidgetSettings {
     // eslint-disable-next-line complexity
     async validate(yml, partials) {
         /** @type {ValidationResult} */
-        const validation = { msg: '', html: '', json: undefined, obj: undefined };
+        const validation = {msg: '', html: '', json: undefined, obj: undefined};
         try {
             let jsonObj;
             try {
@@ -681,7 +680,7 @@ export default class WidgetSettings {
         // Action to be performed before submission
         const form = this.nodes.saveBtn.closest('form');
         if (form) {
-            form.addEventListener('submit', async (/** @type {SubmitEvent} */ evt) => {
+            form.addEventListener('submit', async(/** @type {SubmitEvent} */ evt) => {
                 const submitter = evt.submitter;
                 // @ts-ignore
                 const actionName = submitter?.name ?? 'save';
@@ -800,53 +799,30 @@ export default class WidgetSettings {
         iframe.style.border = 'none';
         iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin');
 
-        // Mirror commands.js Bootstrap/jQuery injection logic.
+        // The same jQuery and Bootstrap as the editor's iframe (see commands.js).
         const tinyinstance = getInstanceForElementId(this.nodes.previewTiny?.id ?? '');
-        const moodleVersion = tinyinstance ? getMoodleVersion(tinyinstance) : (cfg.version ?? '');
-        let jqUrl = (tinyinstance ? getGlobalConfig(tinyinstance, 'tiny.iframe.jquery.url', '') : '').trim();
-        let jqIntegrity = '';
-        let bsUrl = (tinyinstance ? getGlobalConfig(tinyinstance, 'tiny.iframe.bootstrap.url', '') : '').trim();
-        let bsIntegrity = '';
-
-        if (!bsUrl) {
-            if (moodleVersion.startsWith('4')) {
-                bsUrl = `https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js`;
-                bsIntegrity = 'sha256-GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k=';
-            } else {
-                bsUrl = `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js`;
-                bsIntegrity = 'sha256-5P1JGBOIxI7FBAvT/mb1fCnI5n/NhQKzNUuW7Hq0fMc=';
-            }
-        }
-
-        if (!jqUrl && moodleVersion.startsWith('4')) {
-            try {
-                // @ts-ignore
-                const path = window.requirejs.s.contexts._.config.paths.jquery;
-                jqUrl = path.startsWith('http') ? path : cfg.wwwroot + path;
-                if (!jqUrl.endsWith('.js')) {
-                    jqUrl += '.js';
-                }
-            } catch (e) {
-                jqUrl = 'https://code.jquery.com/jquery-3.7.1.min.js';
-                jqIntegrity = 'sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=';
-            }
-        }
+        const {jqUrl, jqIntegrity, bsUrl, bsIntegrity} = iframeLibraries({
+            moodleVersion: tinyinstance ? getMoodleVersion(tinyinstance) : (cfg.version ?? ''),
+            jqUrl: tinyinstance ? getGlobalConfig(tinyinstance, 'tiny.iframe.jquery.url', '') : '',
+            bsUrl: tinyinstance ? getGlobalConfig(tinyinstance, 'tiny.iframe.bootstrap.url', '') : '',
+            wwwroot: cfg.wwwroot,
+        });
 
         const requiresJquery = jqUrl !== '' && jqUrl !== 'none';
         let scripts = '';
         if (requiresJquery) {
             const integrityAttr = jqIntegrity ? ` integrity="${jqIntegrity}" crossorigin="anonymous"` : '';
-            scripts += `<script src="${jqUrl}"${integrityAttr}><\/script>\n`;
+            scripts += `<script src="${jqUrl}"${integrityAttr}></script>\n`;
         }
         if (bsUrl !== '' && bsUrl !== 'none') {
             const integrityAttr = bsIntegrity ? ` integrity="${bsIntegrity}" crossorigin="anonymous"` : '';
-            scripts += `<script src="${bsUrl}"${integrityAttr}><\/script>\n`;
+            scripts += `<script src="${bsUrl}"${integrityAttr}></script>\n`;
         }
         let initScript = '';
         if (bsUrl.includes('@5')) {
-            initScript = `<script>document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el=>{new bootstrap.Popover(el,{trigger:'hover'});});<\/script>`;
+            initScript = `<script>document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el=>{new bootstrap.Popover(el,{trigger:'hover'});});</script>`;
         } else if (requiresJquery && bsUrl.includes('@4')) {
-            initScript = `<script>$('body').popover({selector:'[data-toggle="popover"]',trigger:'hover'});<\/script>`;
+            initScript = `<script>$('body').popover({selector:'[data-toggle="popover"]',trigger:'hover'});</script>`;
         }
 
         const tinyContent = this.tinyPreviewStrategy?.getValue();

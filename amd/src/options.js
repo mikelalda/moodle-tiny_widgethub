@@ -23,13 +23,13 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import { getContextId, getPluginOptionName } from 'editor_tiny/options';
+import {getContextId, getPluginOptionName} from 'editor_tiny/options';
 import Common from './common';
-import { compareVersion, genID } from './util';
-import { createDefaultsForParam } from './service/template_service';
-import { getDocumentBatcher } from './service/fetchdocumentsbatch';
-import { getContextMenuManager } from './contextactions';
-import { getExternalService } from './service/external_service';
+import {compareVersion, genID} from './util';
+import {createDefaultsForParam} from './service/template_service';
+import {getDocumentBatcher} from './service/fetchdocumentsbatch';
+import {getContextMenuManager} from './contextactions';
+import {getExternalService} from './service/external_service';
 
 const pluginName = Common.pluginName;
 
@@ -77,6 +77,7 @@ export const fetchEditorData = (contextId) => {
         _cache.additionalcss = data.additionalcss;
         _cache.cfg = data.cfg;
         _cache.widgetDict = undefined;
+        return;
     });
     return _fetchPromise;
 };
@@ -187,7 +188,7 @@ export function setWidgetDefinitions(editor, widget, css) {
     editor.dom.add(
         editor.dom.select('head')[0],
         'style',
-        { type: 'text/css', id: 'tiny_widgethub-playground-style' },
+        {type: 'text/css', id: 'tiny_widgethub-playground-style'},
         css ?? ''
     );
     // Reinit context menu (async method, no need to wait for it).
@@ -285,7 +286,9 @@ export const getWidgetDict = (editor) => {
     // and not supported by the currentVersion of the plugin.
     const userInfo = editor.options.get(userInfoOptName);
     wrappedWidgets.filter(w => w.isFor(userInfo) && compareVersion(Common.currentRelease, w.prop('plugin_release')))
-        .forEach(w => { widgetDict[w.key] = w; });
+        .forEach(w => {
+            widgetDict[w.key] = w;
+        });
 
     _cache.widgetDict = widgetDict;
     return widgetDict;
@@ -303,7 +306,7 @@ export const getEmbedRevs = (editor) => {
         _embedRevs = Object.create(null);
         Object.entries(getWidgetDict(editor)).forEach(([key, widget]) => {
             // @ts-ignore
-            _embedRevs[key] = { id: widget.id, lastmodified: widget.prop('timemodified') };
+            _embedRevs[key] = {id: widget.id, lastmodified: widget.prop('timemodified')};
         });
     }
     return /** @type {Record<string, {id: number, lastmodified: number}>} */ (_embedRevs);
@@ -424,7 +427,7 @@ export function expandPartial(obj, partials) {
             console.error(`Cannot find partial for ${partialKey}`);
         } else {
             // Override with passed properties.
-            obj = { ...partials[partialKey], ...obj };
+            obj = {...partials[partialKey], ...obj};
         }
     }
     return obj;
@@ -588,7 +591,7 @@ export class Widget {
         }
 
         // Define and store the new promise
-        const doLoad = async () => {
+        const doLoad = async() => {
             try {
                 if (showProgress && typeof editor.setProgressState === 'function') {
                     editor.setProgressState(true);
@@ -706,7 +709,7 @@ export class Widget {
             };
         } else if (typeof this._widget.requires === 'string') {
             const [url, query] = this._widget.requires.split('|').map(e => e.trim());
-            return { url, query };
+            return {url, query};
         }
         return null;
     }

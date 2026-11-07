@@ -24,23 +24,23 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 // eslint-disable-next-line camelcase
-import { get_string } from 'core/str';
+import {get_string} from 'core/str';
 import Common from '../common';
-import { getWidgetParamsFactory } from '../controller/widgetparams_ctrl';
-import { getEditorOptions, getGlobalConfig, isManagePlugin } from '../options';
-import { getModalSrv } from '../service/modal_service';
-import { getTemplateSrv } from '../service/template_service';
-import { getUserStorage } from '../service/userstorage_service';
-import { debounce, genID, hashCode, removeRndFromCtx, searchComp, toggleClass } from '../util';
+import {getWidgetParamsFactory} from '../controller/widgetparams_ctrl';
+import {getEditorOptions, getGlobalConfig, isManagePlugin} from '../options';
+import {getModalSrv} from '../service/modal_service';
+import {getTemplateSrv} from '../service/template_service';
+import {getUserStorage} from '../service/userstorage_service';
+import {debounce, genID, hashCode, removeRndFromCtx, searchComp, toggleClass} from '../util';
 import Config from 'core/config';
 
-const { component } = Common;
+const {component} = Common;
 
 /**
  * @param {HTMLElement} el
  * @param {boolean} visible
  */
-export const setVisibility = function (el, visible) {
+export const setVisibility = function(el, visible) {
     if (!el) {
         return;
     }
@@ -186,7 +186,7 @@ export class WidgetPickerCtrl {
         const viewMode = this.storage.getFromLocal('viewmode', defaultViewMode);
         const miscStr = await get_string('misc', component);
         const data = {
-            ...this.getPickTemplateContext({ misc: miscStr }),
+            ...this.getPickTemplateContext({misc: miscStr}),
             searchtext
         };
 
@@ -423,7 +423,7 @@ export class WidgetPickerCtrl {
      */
     async generatePreview(widget) {
         await widget.loadDefinition(this.editor, false);
-        const toInterpolate = { ...widget.defaultsWithRepeatable(true) };
+        const toInterpolate = {...widget.defaultsWithRepeatable(true)};
         // Decide which template engine to use
         const engine = widget.prop('engine');
         return this.templateSrv.render(widget.template ?? "", toInterpolate, widget.I18n, engine);
@@ -679,7 +679,7 @@ export class WidgetPickerCtrl {
                 (isRayButton && isBehaviourLastUsed('quickbutton', 'ctrlclick'));
             if (shouldLoadRecentValues) {
                 const stored = this.storage.getRecentUsed().find(e => e.key === widget.key)?.p || {};
-                ctx = { ...ctx, ...removeRndFromCtx(stored, widget.parameters) };
+                ctx = {...ctx, ...removeRndFromCtx(stored, widget.parameters)};
             }
         } else {
             // Normal insert

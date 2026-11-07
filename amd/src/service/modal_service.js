@@ -25,7 +25,7 @@
 import Modal from 'core/modal';
 import ModalEvents from 'core/modal_events';
 import Common from '../common';
-const { component } = Common;
+const {component} = Common;
 
 /**
  * Tracks event listeners for cleanup. Can auto-attach or just register.
@@ -126,20 +126,21 @@ class IBPreviewModal extends ModalTracker {
 // ModalFactory resolves the class by type string via ModalRegistry, so both must be loaded.
 // In Moodle 4.3+, cls.create() is called directly on the subclass — no registry needed.
 /** @type {Promise<object|null>} */
-const _modalFactoryPromise = (async () => {
+const _modalFactoryPromise = (async() => {
     if (typeof Modal.create === 'function') {
         // Moodle 4.3+: direct subclass create(), neither ModalFactory nor ModalRegistry needed.
         return null;
     }
     // Moodle < 4.3: register modals so ModalFactory can look them up by type string.
-    await import('core/modal_registry')
-        .then(m => {
-            const ModalRegistry = m.default ?? m;
-            [IBPickerModal, IBParamsModal, IBContextModal, IBPreviewModal].forEach(cls => {
-                ModalRegistry.register(cls.TYPE, cls, cls.TEMPLATE);
-            });
-        })
-        .catch(() => { });
+    try {
+        const m = await import('core/modal_registry');
+        const ModalRegistry = m.default ?? m;
+        [IBPickerModal, IBParamsModal, IBContextModal, IBPreviewModal].forEach(cls => {
+            ModalRegistry.register(cls.TYPE, cls, cls.TEMPLATE);
+        });
+    } catch (e) {
+        // Without the registry ModalFactory.create() does not know the type and says so.
+    }
     const m = await import('core/modal_factory').catch(() => null);
     return m ? (m.default ?? m) : null;
 })();

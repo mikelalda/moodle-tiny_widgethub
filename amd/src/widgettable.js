@@ -22,9 +22,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import Notification from 'core/notification';
-import { getExternalService } from './service/external_service';
-import { hashCode, spinElement, unspinElement } from './util';
-import { fromJSON as json2yaml } from './libs/yaml-lazy';
+import {getExternalService} from './service/external_service';
+import {hashCode, spinElement, unspinElement} from './util';
+import {fromJSON as json2yaml} from './libs/yaml-lazy';
 
 /**
  * Update the footer of the table.
@@ -49,7 +49,7 @@ export default {
      *  contextId: number,
      * }} params - Object with configuration parameters
      */
-    init: function (params) {
+    init: function(params) {
         const contextId = params.contextId;
         /** @type {HTMLTableElement | null} */
         // @ts-ignore
@@ -208,6 +208,7 @@ export default {
                         target.classList.toggle('btn-warning');
                         target.setAttribute('data-visible', isVisible ? '0' : '1');
                         locks.visibilities.delete(id);
+                        return;
                     }).catch((err) => {
                         unspinElement(target, null);
                         console.error('Failed to update visibility', err);
@@ -218,7 +219,7 @@ export default {
         });
 
         // 3. DELETION LOGIC (With Moodle confirmation)
-        deleteBtn.addEventListener('click', () => {
+        deleteBtn.addEventListener('click', async() => {
             /** @type {NodeListOf<HTMLInputElement>} */
             const checked = table.querySelectorAll(checkSelector + ':checked');
             const ids = Array.from(checked).map(cb => parseInt(cb.value));
@@ -228,37 +229,41 @@ export default {
                 return;
             }
 
-            Notification.saveCancelPromise(
-                params.confirmTitle,
-                params.confirmMessage,
-                params.confirmBtn,
-            ).then(() => {
-                spinElement(deleteBtn);
-                const externalService = getExternalService(contextId);
-                externalService.deleteWidgets(ids).then((/** @type {any} */ response) => {
-                    unspinElement(deleteBtn);
-                    selectAll.checked = false;
-                    deleteBtn.disabled = true;
-                    const deletedIds = response.ids;
-                    deletedIds.forEach((/** @type {number} */ id) => {
-                        const input = table.querySelector(`input[type="checkbox"][value="${id}"]`);
-                        if (input) {
-                            input.closest('tr')?.remove();
-                        }
-                    });
-                    updateFooter(table, tableFooterCell);
-                }).catch((/** @type {any} */ ex) => {
-                    unspinElement(deleteBtn);
-                    console.error(ex);
-                });
-            }).catch(() => {
+            try {
+                await Notification.saveCancelPromise(
+                    params.confirmTitle,
+                    params.confirmMessage,
+                    params.confirmBtn,
+                );
+            } catch (e) {
+                // Cancelled: clear the selection.
                 selectAll.checked = false;
                 selectAll.dispatchEvent(new Event('change'));
                 updateFooter(table, tableFooterCell);
-            });
+                return;
+            }
+
+            spinElement(deleteBtn);
+            try {
+                /** @type {any} */
+                const response = await getExternalService(contextId).deleteWidgets(ids);
+                unspinElement(deleteBtn);
+                selectAll.checked = false;
+                deleteBtn.disabled = true;
+                response.ids.forEach((/** @type {number} */ id) => {
+                    const input = table.querySelector(`input[type="checkbox"][value="${id}"]`);
+                    if (input) {
+                        input.closest('tr')?.remove();
+                    }
+                });
+                updateFooter(table, tableFooterCell);
+            } catch (ex) {
+                unspinElement(deleteBtn);
+                console.error(ex);
+            }
         });
 
-        exportBtn.addEventListener('click', async () => {
+        exportBtn.addEventListener('click', async() => {
             spinElement(exportBtn);
             // Precheck if all documents include yml, if not generate from json.
             const externalService = getExternalService(contextId);

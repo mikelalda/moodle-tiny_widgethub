@@ -22,9 +22,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-import { getFormCtrl } from '../controller/form_ctrl';
-import { getModalSrv } from '../service/modal_service';
-import { BindingsAdapter } from '../bindings';
+import {getFormCtrl} from '../controller/form_ctrl';
+import {getModalSrv} from '../service/modal_service';
+import {BindingsAdapter} from '../bindings';
 
 /**
  * @class
@@ -107,7 +107,7 @@ export class WidgetPropertiesCtrl {
         this.modal.footer.find("button.tiny_widgethub-btn-secondary").on("click", () => {
             this.close();
         });
-        this.modal.footer.find("button.tiny_widgethub-btn-primary").on("click", async () => {
+        this.modal.footer.find("button.tiny_widgethub-btn-primary").on("click", async() => {
             const formElem = this.modal?.body.find('form')[0];
             if (formElem) {
                 const updatedValues = this.formCtrl.extractFormParameters(widget, formElem, true);
@@ -124,7 +124,7 @@ export class WidgetPropertiesCtrl {
                 trigger: "hover"
             });
         } catch (ex) {
-            // console.error(ex);
+            // Without Bootstrap popovers the help circles stay static; the form still works.
         }
 
         this.modal.show();

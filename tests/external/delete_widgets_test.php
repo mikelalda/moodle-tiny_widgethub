@@ -24,6 +24,7 @@ require_once($CFG->dirroot . '/webservice/tests/helpers.php');
 use tiny_widgethub\local\storage\storagefactory;
 use tiny_widgethub\external\delete_widgets;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(\tiny_widgethub\external\delete_widgets::class)]
 /**
  * Unit tests for delete_widgets external function.
  *

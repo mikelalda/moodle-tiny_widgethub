@@ -21,7 +21,7 @@
  * @copyright   2025 Josep Mulet Pol <pep.mulet@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-import { getExternalService } from './external_service';
+import {getExternalService} from './external_service';
 
 export class FetchDocumentsBatch {
     static METHOD_NAME = 'tiny_widgethub_get_widget_documents';
@@ -51,7 +51,7 @@ export class FetchDocumentsBatch {
 
         // Create the promise and store it along with resolve/reject
         /** @type {any} */
-        const newEntry = { id };
+        const newEntry = {id};
         newEntry.promise = new Promise((resolve, reject) => {
             newEntry.resolve = resolve;
             newEntry.reject = reject;

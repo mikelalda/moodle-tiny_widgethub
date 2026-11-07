@@ -1,1296 +1,1349 @@
 /********************************** WidgetHub plugin styles */
 .tiny_widgethub-top-0 {
-  top: 0 !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    top: 0 !important;
 }
 
 .tiny_widgethub-bottom-0 {
-  bottom: 0 !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    bottom: 0 !important;
 }
 
 .tiny_widgethub-container {
-  position: relative;
+    position: relative;
 }
 .tiny_widgethub-container div.tiny_widgethub-top {
-  position: relative;
-  vertical-align: middle;
-  margin-top: 5px;
-  display: flex;
+    position: relative;
+    vertical-align: middle;
+    margin-top: 5px;
+    display: flex;
 }
 
 .tiny_widgethub-preview {
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 100%;
-  height: 150px;
-  border: 1px solid gray;
-  border-radius: 4px;
-  box-shadow: 3px 3px gray;
-  overflow: hidden;
-  background: white;
-  z-index: 1000;
-  pointer-events: none;
-  user-select: none;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    box-shadow: 3px 3px gray;
+    overflow: hidden;
+    background: white;
+    z-index: 1000;
+    pointer-events: none;
+    user-select: none;
 }
 .tiny_widgethub-preview > * {
-  margin: auto;
-  transform: scale(70%);
-  transform-origin: 50% 0;
+    margin: auto;
+    transform: scale(70%);
+    transform-origin: 50% 0;
 }
 
 .tiny_widgethub-recent {
-  flex-basis: 100%;
+    flex-basis: 100%;
 }
 
 /** Other plugin styles **/
 .tiny_widgethub-emptylist {
-  margin: 45px;
+    margin: 45px;
 }
 
 .tiny_widgethub-categorycontainer {
-  position: relative;
-  max-height: 450px;
-  overflow: hidden auto;
-  overscroll-behavior-y: contain;
+    position: relative;
+    max-height: 450px;
+    overflow: hidden auto;
+    overscroll-behavior-y: contain;
 }
 
 .tiny_widgethub-category {
-  margin: 4px auto;
-  width: 98%;
-  border-radius: 10px;
-  border: 1px solid lightgray;
-  display: block;
+    margin: 4px auto;
+    width: 98%;
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    display: block;
 }
 .tiny_widgethub-category button {
-  height: 40px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+    height: 40px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .tiny_widgethub-disabled > button {
-  opacity: 60%;
+    opacity: 60%;
 }
 
 .tiny_widgethub-title {
-  padding: 5px 10px;
-  font-size: 12px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-weight: bold;
-  height: 28px;
+    padding: 5px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    height: 28px;
 }
 
 .tiny_widgethub-instructionstext {
-  font-size: 90%;
-  line-height: 1.25em;
+    font-size: 90%;
+    line-height: 1.25em;
 }
 
 h4.tiny_widgethub-headertext {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .tiny_widgethub-uds {
-  background-color: #e7f2f9;
+    background-color: #e7f2f9;
 }
 .tiny_widgethub-uds:nth-child(odd) {
-  background-color: whitesmoke;
+    background-color: whitesmoke;
 }
 
 .tiny_widgethub-pattern {
-  display: inline-block;
-  height: 24px;
-  vertical-align: sub;
-  position: relative;
-  background-color: #e5e5f7;
-  opacity: 0.8;
-  background-image: repeating-linear-gradient(45deg, #565656 25%, transparent 25%, transparent 75%, #565656 75%, #565656), repeating-linear-gradient(45deg, #565656 25%, #e5e5f7 25%, #e5e5f7 75%, #565656 75%, #565656);
-  background-position: 0 0, 8px 8px;
-  background-size: 16px 16px;
+    display: inline-block;
+    height: 24px;
+    vertical-align: sub;
+    position: relative;
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image:
+        repeating-linear-gradient(45deg, #565656 25%, transparent 25%, transparent 75%, #565656 75%, #565656),
+        repeating-linear-gradient(45deg, #565656 25%, #e5e5f7 25%, #e5e5f7 75%, #565656 75%, #565656);
+    background-position: 0 0, 8px 8px;
+    background-size: 16px 16px;
 }
 .tiny_widgethub-pattern > input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .tiny_widgethub-blink {
-  position: absolute;
-  right: 80px;
-  top: 20px;
-  animation: tiny_widgethub-blinker 1s infinite;
+    position: absolute;
+    right: 80px;
+    top: 20px;
+    animation: tiny_widgethub-blinker 1s infinite;
 }
 
 @keyframes tiny_widgethub-blinker {
-  from {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.25;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.25;
+    }
+    to {
+        opacity: 1;
+    }
 }
 .tiny_widgethub-loader {
-  position: absolute;
-  z-index: 100;
-  top: 50%;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: #999;
-  box-shadow: 32px 0 #999, -32px 0 #999;
-  animation: tiny_widgethub-flash 0.5s ease-out infinite alternate;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #999;
+    box-shadow: 32px 0 #999, -32px 0 #999;
+    animation: tiny_widgethub-flash 0.5s ease-out infinite alternate;
 }
 
 @keyframes tiny_widgethub-flash {
-  0% {
-    background-color: rgba(255, 255, 255, 0.1333333333);
-    box-shadow: 32px 0 rgba(255, 255, 255, 0.1333333333), -32px 0 #999;
-  }
-  50% {
-    background-color: #999;
-    box-shadow: 32px 0 rgba(255, 255, 255, 0.1333333333), -32px 0 rgba(255, 255, 255, 0.1333333333);
-  }
-  100% {
-    background-color: rgba(255, 255, 255, 0.1333333333);
-    box-shadow: 32px 0 #999, -32px 0 rgba(255, 255, 255, 0.1333333333);
-  }
+    0% {
+        background-color: rgba(255, 255, 255, 0.1333333333);
+        box-shadow: 32px 0 rgba(255, 255, 255, 0.1333333333), -32px 0 #999;
+    }
+    50% {
+        background-color: #999;
+        box-shadow: 32px 0 rgba(255, 255, 255, 0.1333333333), -32px 0 rgba(255, 255, 255, 0.1333333333);
+    }
+    100% {
+        background-color: rgba(255, 255, 255, 0.1333333333);
+        box-shadow: 32px 0 #999, -32px 0 rgba(255, 255, 255, 0.1333333333);
+    }
 }
 /** Custom bootstrap buttons **/
 .tiny_widgethub-btn {
-  display: inline-block;
-  font-weight: 400;
-  color: #1d2125;
-  text-align: center;
-  vertical-align: middle;
-  user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  border-radius: 0.5rem;
+    display: inline-block;
+    font-weight: 400;
+    color: #1d2125;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    border-radius: 0.5rem;
 }
 .tiny_widgethub-btn:not(:disabled):not(.disabled) {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .tiny_widgethub-btn-group {
-  position: relative;
-  display: inline-flex;
-  vertical-align: middle;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-  background-color: white;
-  border-radius: 10px;
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    background-color: white;
+    border-radius: 10px;
 }
 .tiny_widgethub-btn-group > .tiny_widgethub-btn {
-  position: relative;
-  flex: 1 1 auto;
+    position: relative;
+    flex: 1 1 auto;
 }
 .tiny_widgethub-btn-group > .tiny_widgethub-btn:not(:last-child) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 .tiny_widgethub-btn-group > .tiny_widgethub-btn:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 .tiny_widgethub-btn-group .tiny_widgethub-btn-outline-primary {
-  border-color: lightgray;
+    border-color: lightgray;
 }
 
 .tiny_widgethub-btn-primary {
-  color: #fff;
-  background-color: #0f6cbf;
-  border-color: #0f6cbf;
+    color: #fff;
+    background-color: #0f6cbf;
+    border-color: #0f6cbf;
 }
 .tiny_widgethub-btn-primary:hover {
-  color: #fff;
-  background-color: #0c589c;
-  border-color: #0b5190;
+    color: #fff;
+    background-color: #0c589c;
+    border-color: #0b5190;
 }
 
 .tiny_widgethub-btn-outline-primary {
-  color: #0f6cbf;
-  border-color: #0f6cbf;
+    color: #0f6cbf;
+    border-color: #0f6cbf;
 }
 .tiny_widgethub-btn-outline-primary:hover {
-  color: #0c589c;
+    color: #0c589c;
 }
 
 .tiny_widgethub-btn-sm,
 .tiny_widgethub-btn-group-sm > .tiny_widgethub-btn {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.8203125rem;
-  line-height: 1.5;
-  border-radius: 0.2rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8203125rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
 }
 
 .tiny_widgethub-btn-secondary {
-  color: #1d2125;
-  background-color: #ced4da;
-  border-color: #ced4da;
+    color: #1d2125;
+    background-color: #ced4da;
+    border-color: #ced4da;
 }
 .tiny_widgethub-btn-secondary:hover {
-  color: #1d2125;
-  background-color: #b8c1ca;
-  border-color: #b1bbc4;
+    color: #1d2125;
+    background-color: #b8c1ca;
+    border-color: #b1bbc4;
 }
 
 /********************************* Icons definitions */
 .twh-icon {
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 12px;
-  width: 12px;
-  vertical-align: top;
-  display: inline-block;
-  pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 12px;
+    width: 12px;
+    vertical-align: top;
+    display: inline-block;
+    pointer-events: none;
 }
 .twh-icon svg {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 .tiny_widgethub-btn-primary .twh-icon path {
-  fill: #fff;
+    fill: #fff;
 }
 
 .tiny_widgethub-btn-secondary .twh-icon path {
-  fill: #474747;
+    fill: #474747;
 }
 
 .tiny_widgethub-btn-outline-primary .twh-icon path {
-  fill: #0f6cbf;
+    fill: #0f6cbf;
 }
 .tiny_widgethub-btn-outline-primary:hover .twh-icon path {
-  fill: #0c589c;
+    fill: #0c589c;
 }
 
 .tiny_widgethub-view-grid .tiny_widgethub-btn-primary:hover .twh-icon path {
-  fill: #0c589c;
+    fill: #0c589c;
 }
 
 /********************************** Repeatable list **/
 .tiny_widgethub-regularitem {
-  background: whitesmoke;
+    background: whitesmoke;
 }
 
 .tiny_widgethub-additem {
-  height: 25px;
-  padding: 0 !important;
-  z-index: 2;
-  border-left: none;
-  border-right: none;
+    height: 25px;
+    /* stylelint-disable-next-line declaration-no-important */
+    padding: 0 !important;
+    z-index: 2;
+    border-left: none;
+    border-right: none;
 }
 .tiny_widgethub-additem > hr {
-  z-index: 0;
+    z-index: 0;
 }
 .tiny_widgethub-additem > button {
-  z-index: 1;
-  padding: 0;
-  font-size: 12px;
-  line-height: 1;
-  width: 24px;
-  height: 24px;
+    z-index: 1;
+    padding: 0;
+    font-size: 12px;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
 }
 
 .list-group .tiny_widgethub-additem:first-child {
-  border-top-color: transparent;
+    border-top-color: transparent;
 }
 .list-group .tiny_widgethub-additem:last-child {
-  border-bottom-color: transparent;
+    border-bottom-color: transparent;
 }
 
 /********************************** Grid View Styles */
 .twh-widget-icon {
-  display: none;
+    display: none;
 }
 
 .tiny_widgethub-view-grid .tiny_widgethub-disabled {
-  position: absolute;
-  top: 0;
-  left: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .tiny_widgethub-view-grid .twh-widget-icon {
-  display: block;
+    display: block;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-category > div.d-flex {
-  flex-direction: row !important;
-  flex-wrap: wrap;
-  align-items: stretch;
-  padding: 5px !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    align-items: stretch;
+    /* stylelint-disable-next-line declaration-no-important */
+    padding: 5px !important;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-category.d-none {
-  display: none !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    display: none !important;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group {
-  width: 32%;
-  flex: 0 0 32%;
-  margin: 0.5%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0.5rem;
-  background-color: #fff;
-  box-shadow: none;
-  height: 140px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
+    width: 32%;
+    flex: 0 0 32%;
+    margin: 0.5%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    background-color: #fff;
+    box-shadow: none;
+    height: 140px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button:not([data-insert=true]):not([data-auto]) {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  white-space: normal;
-  text-align: center;
-  color: #0f6cbf;
-  padding: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+    color: #0f6cbf;
+    padding: 0;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button:not([data-insert=true]):not([data-auto]) .twh-label {
-  overflow: hidden;
-  line-height: 1.1;
-  height: 3.5em;
-  width: 100%;
-  margin-top: 4px;
-  font-size: 79%;
-  text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: 1.1;
+    height: 3.5em;
+    width: 100%;
+    margin-top: 4px;
+    font-size: 79%;
+    text-overflow: ellipsis;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button:not([data-insert=true]):not([data-auto]) .twh-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  margin-bottom: 4px;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button:not([data-insert=true]):not([data-auto]) .twh-icon svg {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button[data-insert=true] {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border-radius: 50%;
-  font-size: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent !important;
-  color: #0f6cbf !important;
-  border-color: #0f6cbf !important;
-  z-index: 10;
-  opacity: 0;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* stylelint-disable-next-line declaration-no-important */
+    background-color: transparent !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: #0f6cbf !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: #0f6cbf !important;
+    z-index: 10;
+    opacity: 0;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button[data-insert=true]:hover {
-  color: #fff !important;
-  background-color: #0f6cbf !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: #fff !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    background-color: #0f6cbf !important;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button[data-insert=true]:hover .twh-icon path {
-  fill: #fff !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    fill: #fff !important;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button[data-auto] {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border-radius: 50%;
-  font-size: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button[data-auto]:hover {
-  color: #fff !important;
-  background-color: #0f6cbf !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: #fff !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    background-color: #0f6cbf !important;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group > button[data-auto]:hover .twh-icon path {
-  fill: #fff !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    fill: #fff !important;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group:hover {
-  border-color: rgba(119, 170, 255, 0.8);
-  box-shadow: 0 0 0 3px rgba(119, 170, 255, 0.35);
-  transition: all 0.2s ease-in-out;
-  z-index: 5;
+    border-color: rgba(119, 170, 255, 0.8);
+    box-shadow: 0 0 0 3px rgba(119, 170, 255, 0.35);
+    transition: all 0.2s ease-in-out;
+    z-index: 5;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group:hover > button[data-insert=false] {
-  color: #0c589c;
-  font-weight: 500;
+    color: #0c589c;
+    font-weight: 500;
 }
 .tiny_widgethub-view-grid .tiny_widgethub-btn-group:hover > button[data-insert=true] {
-  opacity: 1;
-  transition: opacity 0.2s ease-in-out;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
 }
 
 .tiny_widgethub-top-0 {
-  top: 0 !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    top: 0 !important;
 }
 
 .tiny_widgethub-bottom-0 {
-  bottom: 0 !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    bottom: 0 !important;
 }
 
 .tiny_widgethub-container {
-  position: relative;
+    position: relative;
 }
 
 .tiny_widgethub-container div.tiny_widgethub-top {
-  position: relative;
-  vertical-align: middle;
-  margin-top: 5px;
-  display: flex;
+    position: relative;
+    vertical-align: middle;
+    margin-top: 5px;
+    display: flex;
 }
 
 .tiny_widgethub-cmcontrol {
-  width: 100%;
-  height: 300px;
-  overflow: auto;
+    width: 100%;
+    height: 300px;
+    overflow: auto;
 }
 .tiny_widgethub-cmcontrol .cm-editor {
-  height: 100%;
+    height: 100%;
 }
 
 .tiny_widgethub-previewpanel {
-  border: 1px solid gray;
-  width: 98%;
-  height: 300px;
-  margin: 5px;
-  padding: 10px;
-  overflow: auto;
+    border: 1px solid gray;
+    width: 98%;
+    height: 300px;
+    margin: 5px;
+    padding: 10px;
+    overflow: auto;
 }
 
 /* Responsive adjustments */
 @media (max-width: 480px) {
-  .tiny_widgethub-view-grid .tiny_widgethub-btn-group {
-    width: 48%;
-    flex: 0 0 48%;
-  }
+    .tiny_widgethub-view-grid .tiny_widgethub-btn-group {
+        width: 48%;
+        flex: 0 0 48%;
+    }
 }
+
 @media (max-width: 350px) {
-  .tiny_widgethub-view-grid .tiny_widgethub-btn-group {
-    width: 98%;
-    flex: 0 0 98%;
-  }
+    .tiny_widgethub-view-grid .tiny_widgethub-btn-group {
+        width: 98%;
+        flex: 0 0 98%;
+    }
 }
 /********************************** Specific Widget definitions styles */
 /* Pastel colors (Low saturation) for ibcallout widget */
 /** subsection **/
 h4.twh-subsub {
-  position: relative;
-  padding-left: 16px;
-  font-size: 1.32rem;
-  font-style: italic;
-  font-weight: bold;
+    position: relative;
+    padding-left: 16px;
+    font-size: 1.32rem;
+    font-style: italic;
+    font-weight: bold;
 }
+
 @media (max-width: 1200px) {
-  h4.twh-subsub {
-    font-size: calc(0.87625rem + 0.6075vw);
-  }
+    h4.twh-subsub {
+        font-size: calc(0.87625rem + 0.6075vw);
+    }
 }
 h4.twh-subsub::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 6px;
-  width: 10px;
-  height: 10px;
-  border-radius: 1px;
-  background: #bed0f6;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 1px;
+    background: #bed0f6;
 }
 
 /** Widget quote **/
 .twh-quote {
-  background: #f6f6ff;
-  color: #222222;
-  padding: 20px 20px 20px 50px;
-  box-sizing: border-box;
-  box-shadow: 0 2px 4px rgba(34, 34, 34, 0.12);
-  position: relative;
-  overflow: hidden;
-  min-height: 120px;
+    background: #f6f6ff;
+    color: #222;
+    padding: 20px 20px 20px 50px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(34, 34, 34, 0.12);
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
 }
 .twh-quote p {
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 0;
-  max-width: 80%;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    max-width: 80%;
 }
 .twh-quote cite {
-  font-size: 14px;
-  margin-top: 10px;
-  display: block;
-  font-weight: 200;
-  opacity: 0.9;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+    font-weight: 200;
+    opacity: 0.9;
 }
-.twh-quote:before, .twh-quote:after {
-  font-family: Georgia, serif;
-  position: absolute;
-  color: rgba(91, 88, 241, 0.3);
-  font-weight: normal;
+.twh-quote:before,
+.twh-quote:after {
+    font-family: Georgia, serif;
+    position: absolute;
+    color: rgba(91, 88, 241, 0.3);
+    font-weight: normal;
 }
 .twh-quote:before {
-  content: "“";
-  top: 10px;
-  left: 10px;
-  font-size: 5em;
+    content: "“";
+    top: 10px;
+    left: 10px;
+    font-size: 5em;
 }
 .twh-quote:after {
-  content: "”";
-  bottom: -110px;
-  line-height: 100px;
-  right: -32px;
-  font-size: 20em;
+    content: "”";
+    bottom: -110px;
+    line-height: 100px;
+    right: -32px;
+    font-size: 20em;
 }
+
 @media (max-width: 640px) {
-  .twh-quote:after {
-    font-size: 18em;
-    right: -25px;
-  }
+    .twh-quote:after {
+        font-size: 18em;
+        right: -25px;
+    }
 }
 
 /** Component text fragment **/
 .twh-fragment {
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  margin: 35px auto;
-  min-height: 300px;
-  padding: 24px;
-  position: relative;
-  width: 92%;
-  z-index: 1;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 35px auto;
+    min-height: 300px;
+    padding: 24px;
+    position: relative;
+    width: 92%;
+    z-index: 1;
 }
 .twh-fragment > h4:first-of-type {
-  margin-bottom: 20px;
-  font-size: 125%;
+    margin-bottom: 20px;
+    font-size: 125%;
 }
 .twh-fragment p {
-  font-size: 95%;
+    font-size: 95%;
 }
 .twh-fragment > cite {
-  opacity: 0.8;
+    opacity: 0.8;
 }
-.twh-fragment:before, .twh-fragment:after {
-  content: "";
-  position: absolute;
-  height: 98%;
-  width: 100%;
-  z-index: -1;
-  background: #f6f6f6;
+.twh-fragment:before,
+.twh-fragment:after {
+    content: "";
+    position: absolute;
+    height: 98%;
+    width: 100%;
+    z-index: -1;
+    background: #f6f6f6;
 }
 .twh-fragment:before {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-  left: -5px;
-  top: 4px;
-  transform: rotate(-1deg);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+    left: -5px;
+    top: 4px;
+    transform: rotate(-1deg);
 }
 .twh-fragment:after {
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
-  right: -3px;
-  top: 1px;
-  transform: rotate(0.4deg);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+    right: -3px;
+    top: 1px;
+    transform: rotate(0.4deg);
 }
 
 /** Video **/
 .twh-video-container {
-  width: 80%;
-  margin: auto;
-  overflow: hidden;
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
 }
+
 @media (max-width: 480px) {
-  .twh-video-container {
-    width: 95%;
-  }
+    .twh-video-container {
+        width: 95%;
+    }
 }
+
 @media (min-width: 1281px) {
-  .twh-video-container {
-    width: 75%;
-  }
+    .twh-video-container {
+        width: 75%;
+    }
 }
 
 .twh-videoWrapper {
-  position: relative;
-  padding-bottom: 56.25%;
-  /* 16:9 */
-  padding-top: 25px;
-  height: 0;
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    padding-top: 25px;
+    height: 0;
 }
 .twh-videoWrapper:has(.h5p-placeholder) {
-  margin-bottom: 18px;
+    margin-bottom: 18px;
 }
 .twh-videoWrapper iframe {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .twh-caption {
-  text-align: center;
-  margin: 10px auto;
-  font-size: 90%;
+    text-align: center;
+    margin: 10px auto;
+    font-size: 90%;
 }
 
 /** Medias and responsivity **/
 @media (max-width: 767px) {
-  .tiny_widgethub-preview {
-    display: none !important;
-  }
+    .tiny_widgethub-preview {
+        /* stylelint-disable-next-line declaration-no-important */
+        display: none !important;
+    }
 }
 /************** Dedication time */
 .twh-rwrap {
-  text-align: right;
-  font-size: 0;
+    text-align: right;
+    font-size: 0;
 }
 
 i.fad.fa-stopwatch::before {
-  content: "\f017";
-  font-family: "Font Awesome 6 Free", "FontAwesome";
-  font-style: normal;
-  font-weight: 900;
+    content: "\f017";
+    font-family: "Font Awesome 6 Free", "FontAwesome";
+    font-style: normal;
+    font-weight: 900;
 }
 
 .twh-ctx {
-  display: inline-block;
-  border-top-left-radius: 50%;
-  border-bottom-left-radius: 50%;
-  background: rgb(31, 106, 219);
-  color: rgb(241, 245, 254);
-  margin: 0;
-  padding: 4px;
-  width: 18px;
-  font-size: 11px;
+    display: inline-block;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    background: rgb(31, 106, 219);
+    color: rgb(241, 245, 254);
+    margin: 0;
+    padding: 4px;
+    width: 18px;
+    font-size: 11px;
 }
 
 .twh-time {
-  display: inline-block;
-  margin: 0px;
-  padding: 5px;
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
-  background: rgb(241, 245, 254);
-  color: rgb(31, 106, 219);
-  font-size: 12px;
+    display: inline-block;
+    margin: 0;
+    padding: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    background: rgb(241, 245, 254);
+    color: rgb(31, 106, 219);
+    font-size: 12px;
 }
 .twh-time > span {
-  font-weight: bold;
-  font-style: normal;
+    font-weight: bold;
+    font-style: normal;
 }
 
 div.notranslate,
 span.notranslate {
-  border: 1px dotted orange;
+    border: 1px dotted orange;
 }
 
 /* Estructura Base */
 .twh-callout {
-  display: flex;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  border-left: 5px solid #4b5563;
-  background-color: #f9fafb;
-  font-family: sans-serif;
+    display: flex;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border-left: 5px solid #4b5563;
+    background-color: #f9fafb;
+    font-family: sans-serif;
 }
 
 .twh-callout-content {
-  flex: 1;
+    flex: 1;
 }
 
 .twh-callout-title {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.25rem;
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
 }
 
 .twh-callout-body {
-  color: #374151;
-  font-size: 0.95rem;
-  line-height: 1.5;
+    color: #374151;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .twh-callout-icon {
-  margin-left: 1rem;
-  font-size: 1.25rem;
-  align-self: flex-start;
+    margin-left: 1rem;
+    font-size: 1.25rem;
+    align-self: flex-start;
 }
 
 /* Variantes */
 .twh-callout-important {
-  background-color: #fff9e6;
-  border-left-color: #d97706;
+    background-color: #fff9e6;
+    border-left-color: #d97706;
 }
 
 .twh-callout-important .twh-callout-title,
 .twh-callout-important .twh-callout-icon {
-  color: #d97706;
+    color: #d97706;
 }
 
 .twh-callout-warning {
-  background-color: #fef2f2;
-  border-left-color: #dc2626;
+    background-color: #fef2f2;
+    border-left-color: #dc2626;
 }
 
 .twh-callout-warning .twh-callout-title,
 .twh-callout-warning .twh-callout-icon {
-  color: #dc2626;
+    color: #dc2626;
 }
 
 .twh-callout-example {
-  background-color: #f0fdf4;
-  border-left-color: #16a34a;
+    background-color: #f0fdf4;
+    border-left-color: #16a34a;
 }
 
 .twh-callout-example .twh-callout-title,
 .twh-callout-example .twh-callout-icon {
-  color: #16a34a;
+    color: #16a34a;
 }
 
 .twh-callout-extension {
-  background-color: #eff6ff;
-  border-left-color: #2563eb;
+    background-color: #eff6ff;
+    border-left-color: #2563eb;
 }
 
 .twh-callout-extension .twh-callout-title,
 .twh-callout-extension .twh-callout-icon {
-  color: #2563eb;
+    color: #2563eb;
 }
 
 .twh-callout-size-small {
-  margin: 1rem auto;
-  width: 60%;
+    margin: 1rem auto;
+    width: 60%;
 }
+
 @media (max-width: 640px) {
-  .twh-callout-size-small {
-    width: 100%;
-  }
+    .twh-callout-size-small {
+        width: 100%;
+    }
 }
 
 /** Compatibility carousel in bs 4 and 5 */
 div[data-widget=bs-carousel] .carousel-indicators {
-  list-style: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
 div[data-widget=bs-carousel] .carousel-indicators li::marker {
-  content: none;
+    content: none;
 }
 
 /* >>> APUNTES scorm2libro: inicio (generado por herramientas/adaptar_widgethub.py; no editar a mano) */
 /* Estilos de los apuntes (estilos_apuntes_moodle.css), limitados a .apuntes-moodle. Sin la regla «body» del original. */
 /* ============================================================
-   SISTEMA VISUAL PARA APUNTES MOODLE
-   Estilo basado en el tema "classic" de Rise 360
-   ============================================================
+SISTEMA VISUAL PARA APUNTES MOODLE
+Estilo basado en el tema "classic" de Rise 360
+============================================================
 
-   Colores:
-   - colorAccent: #00a1c0 (azul corporativo)
-   - color-text: #000
-   - color-background: #fff (claro) / #000 (oscuro)
+Colores:
+- colorAccent: #00a1c0 (azul corporativo)
+- color-text: #000
+- color-background: #fff (claro) / #000 (oscuro)
 
-   Tipografías:
-   - Body: Roboto (400)
-   - Headings: Roboto (700)
-   - UI: Lato
+Tipografías:
+- Body: Roboto (400)
+- Headings: Roboto (700)
+- UI: Lato
 
-   Compatibilidad Moodle:
-   - Sin JavaScript
-   - Sin librerías externas
-   - CSS puro
-   - Funciona con HTML nativo
-*/
+Compatibilidad Moodle:
+- Sin JavaScript
+- Sin librerías externas
+- CSS puro
+- Funciona con HTML nativo
+ */
 
 /* ------------------------------------------------------------
-   Variables CSS
-   ------------------------------------------------------------
-   Centralizan colores y medidas para que el estilo sea
-   fácil de ajustar y consistente entre apartados.
-*/
+Variables CSS
+------------------------------------------------------------
+Centralizan colores y medidas para que el estilo sea
+fácil de ajustar y consistente entre apartados.
+ */
 :root {
-  /* Colores corporativos (tema classic de Rise 360) */
-  --color-accent: #00a1c0;
-  --color-accent-dark: #007d96;
-  --color-accent-light: #e6f7fa;
-  --color-text: #000000;
-  --color-text-muted: #555555;
-  --color-background: #ffffff;
-  --color-background-muted: #f5f5f5;
-  --color-border: #e0e0e0;
-  --color-error: #de1d1d;
-  --color-success: #4caf50;
-  --color-warning: #ff9800;
+    /* Colores corporativos (tema classic de Rise 360) */
+    --color-accent: #00a1c0;
+    --color-accent-dark: #007d96;
+    --color-accent-light: #e6f7fa;
+    --color-text: #000;
+    --color-text-muted: #555;
+    --color-background: #fff;
+    --color-background-muted: #f5f5f5;
+    --color-border: #e0e0e0;
+    --color-error: #de1d1d;
+    --color-success: #4caf50;
+    --color-warning: #ff9800;
 
-  /* Colores para bloques oscuros */
-  --color-code-bg: #1e1e1e;
-  --color-code-text: #d4d4d4;
-  --color-code-keyword: #569cd6;
-  --color-code-string: #ce9178;
-  --color-code-comment: #6a9955;
-  --color-code-number: #b5cea8;
-  --color-code-function: #dcdcaa;
-  --color-code-type: #4ec9b0;
+    /* Colores para bloques oscuros */
+    --color-code-bg: #1e1e1e;
+    --color-code-text: #d4d4d4;
+    --color-code-keyword: #569cd6;
+    --color-code-string: #ce9178;
+    --color-code-comment: #6a9955;
+    --color-code-number: #b5cea8;
+    --color-code-function: #dcdcaa;
+    --color-code-type: #4ec9b0;
 
-  /* Tipografías */
-  --font-body: 'Roboto', Arial, Helvetica, sans-serif;
-  --font-heading: 'Roboto', Arial, Helvetica, sans-serif;
-  --font-ui: 'Lato', Arial, Helvetica, sans-serif;
-  --font-mono: 'Courier New', Courier, monospace;
+    /* Tipografías */
+    --font-body: 'Roboto', Arial, Helvetica, sans-serif;
+    --font-heading: 'Roboto', Arial, Helvetica, sans-serif;
+    --font-ui: 'Lato', Arial, Helvetica, sans-serif;
+    --font-mono: 'Courier New', Courier, monospace;
 
-  /* Medidas */
-  --block-padding: 30px;
-  --border-radius: 8px;
-  --max-width: 960px;
+    /* Medidas */
+    --block-padding: 30px;
+    --border-radius: 8px;
+    --max-width: 960px;
 }
 
 /* ------------------------------------------------------------
-   Contenedor principal
-   ------------------------------------------------------------
-*/
+Contenedor principal
+------------------------------------------------------------
+ */
 .apuntes-moodle {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--block-padding) 0;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--color-text);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--block-padding) 0;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
 }
 
 .apuntes-moodle *,
 .apuntes-moodle *::before,
 .apuntes-moodle *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /* ------------------------------------------------------------
-   Tipografía base
-   ------------------------------------------------------------
-*/
+Tipografía base
+------------------------------------------------------------
+ */
 .apuntes-moodle p,
 .apuntes-moodle ul,
 .apuntes-moodle ol {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.6;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
 }
 
 .apuntes-moodle p:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .apuntes-moodle li {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .apuntes-moodle strong {
-  font-weight: 700;
-  color: var(--color-text);
+    font-weight: 700;
+    color: var(--color-text);
 }
 
 .apuntes-moodle em {
-  font-style: italic;
+    font-style: italic;
 }
 
 .apuntes-moodle a {
-  color: var(--color-accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .apuntes-moodle a:hover {
-  color: var(--color-accent-dark);
+    color: var(--color-accent-dark);
 }
 
 /* ------------------------------------------------------------
-   Encabezados
-   ------------------------------------------------------------
-*/
+Encabezados
+------------------------------------------------------------
+ */
 .apuntes-moodle h1 {
-  margin: 0 0 1.5rem 0;
-  padding: 0 0 1rem 0;
-  color: var(--color-text);
-  font-family: var(--font-heading);
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.3;
-  border-bottom: 2px solid var(--color-accent);
+    margin: 0 0 1.5rem 0;
+    padding: 0 0 1rem 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    border-bottom: 2px solid var(--color-accent);
 }
 
 .apuntes-moodle h2 {
-  margin: 2rem 0 1rem 0;
-  padding: 0;
-  color: var(--color-text);
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.4;
-  border-bottom: 1px solid var(--color-border);
+    margin: 2rem 0 1rem 0;
+    padding: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .apuntes-moodle h3 {
-  margin: 1.5rem 0 0.75rem 0;
-  padding: 0;
-  color: var(--color-text);
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.4;
+    margin: 1.5rem 0 0.75rem 0;
+    padding: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
 }
 
 .apuntes-moodle h4,
 .apuntes-moodle h5,
 .apuntes-moodle h6 {
-  margin: 1rem 0 0.5rem 0;
-  padding: 0;
-  color: var(--color-text);
-  font-family: var(--font-heading);
-  font-weight: 700;
-  line-height: 1.4;
+    margin: 1rem 0 0.5rem 0;
+    padding: 0;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.4;
 }
 
 /* ------------------------------------------------------------
-   Código en línea
-   ------------------------------------------------------------
-*/
+Código en línea
+------------------------------------------------------------
+ */
 .apuntes-moodle code {
-  padding: 0.15rem 0.35rem;
-  color: var(--color-text);
-  background: var(--color-background-muted);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.9em;
+    padding: 0.15rem 0.35rem;
+    color: var(--color-text);
+    background: var(--color-background-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
 }
 
 /* ------------------------------------------------------------
-   Bloques de código
-   ------------------------------------------------------------
-*/
+Bloques de código
+------------------------------------------------------------
+ */
 .apuntes-moodle pre {
-  margin: 1rem 0 1.5rem 0;
-  padding: 1.25rem 1.5rem;
-  overflow-x: auto;
-  white-space: pre;
-  color: var(--color-code-text);
-  background: var(--color-code-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  line-height: 1.6;
+    margin: 1rem 0 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--color-code-text);
+    background: var(--color-code-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
 .apuntes-moodle pre code {
-  padding: 0;
-  color: inherit;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  font-size: inherit;
-  line-height: inherit;
+    padding: 0;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-size: inherit;
+    line-height: inherit;
 }
 
 /* Clases de resaltado sintáctico */
-.apuntes-moodle pre code .kw { color: var(--color-code-keyword); }
-.apuntes-moodle pre code .type { color: var(--color-code-type); }
-.apuntes-moodle pre code .method { color: var(--color-code-function); }
-.apuntes-moodle pre code .str { color: var(--color-code-string); }
-.apuntes-moodle pre code .comment { color: var(--color-code-comment); font-style: italic; }
-.apuntes-moodle pre code .number { color: var(--color-code-number); }
-.apuntes-moodle pre code .plain { color: var(--color-code-text); }
-.apuntes-moodle pre code .output { color: var(--color-code-text); }
+.apuntes-moodle pre code .kw {
+    color: var(--color-code-keyword);
+}
+.apuntes-moodle pre code .type {
+    color: var(--color-code-type);
+}
+.apuntes-moodle pre code .method {
+    color: var(--color-code-function);
+}
+.apuntes-moodle pre code .str {
+    color: var(--color-code-string);
+}
+.apuntes-moodle pre code .comment {
+    color: var(--color-code-comment);
+    font-style: italic;
+}
+.apuntes-moodle pre code .number {
+    color: var(--color-code-number);
+}
+.apuntes-moodle pre code .plain {
+    color: var(--color-code-text);
+}
+.apuntes-moodle pre code .output {
+    color: var(--color-code-text);
+}
 
 /* ------------------------------------------------------------
-   Tablas
-   ------------------------------------------------------------
-*/
+Tablas
+------------------------------------------------------------
+ */
 .apuntes-moodle table {
-  display: block;
-  width: 100%;
-  margin: 1rem 0 1.5rem 0;
-  overflow-x: auto;
-  border-collapse: collapse;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+    display: block;
+    width: 100%;
+    margin: 1rem 0 1.5rem 0;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
 }
 
 .apuntes-moodle th,
 .apuntes-moodle td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  vertical-align: top;
-  border-bottom: 1px solid var(--color-border);
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  line-height: 1.5;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .apuntes-moodle th {
-  color: #ffffff;
-  background: var(--color-accent);
-  font-family: var(--font-heading);
-  font-weight: 700;
+    color: #fff;
+    background: var(--color-accent);
+    font-family: var(--font-heading);
+    font-weight: 700;
 }
 
 .apuntes-moodle tr:nth-child(even) td {
-  background: var(--color-background-muted);
+    background: var(--color-background-muted);
 }
 
 .apuntes-moodle tr:last-child td {
-  border-bottom: 0;
+    border-bottom: 0;
 }
 
 /* ------------------------------------------------------------
-   Bloques pedagógicos
-   ------------------------------------------------------------
-*/
+Bloques pedagógicos
+------------------------------------------------------------
+ */
 /* Bloque base */
 .apuntes-moodle .bloque {
-  position: relative;
-  margin: 1.25rem 0;
-  padding: 1rem 1.25rem;
-  color: var(--color-text);
-  background: var(--color-background-muted);
-  border: 1px solid var(--color-border);
-  border-left: 4px solid var(--color-accent);
-  border-radius: var(--border-radius);
+    position: relative;
+    margin: 1.25rem 0;
+    padding: 1rem 1.25rem;
+    color: var(--color-text);
+    background: var(--color-background-muted);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--border-radius);
 }
 
 /* Idea clave */
 .apuntes-moodle .bloque.idea {
-  border-left-color: var(--color-accent);
-  background: var(--color-accent-light);
+    border-left-color: var(--color-accent);
+    background: var(--color-accent-light);
 }
 
 /* Ejemplo */
 .apuntes-moodle .bloque.ejemplo {
-  border-left-color: var(--color-success);
-  background: #f1f8f1;
+    border-left-color: var(--color-success);
+    background: #f1f8f1;
 }
 
 /* Contraejemplo */
 .apuntes-moodle .bloque.contraejemplo {
-  border-left-color: var(--color-error);
-  background: #fff5f5;
+    border-left-color: var(--color-error);
+    background: #fff5f5;
 }
 
 /* Atención */
 .apuntes-moodle .bloque.atencion {
-  border-left-color: var(--color-warning);
-  background: #fff8e1;
+    border-left-color: var(--color-warning);
+    background: #fff8e1;
 }
 
 /* Etiqueta */
 .apuntes-moodle .etiqueta {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--color-text);
-  font-family: var(--font-heading);
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.4;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
 }
 
 /* ------------------------------------------------------------
-   Índice / mapa de contenido
-   ------------------------------------------------------------
-*/
+Índice / mapa de contenido
+------------------------------------------------------------
+ */
 .apuntes-moodle .indice {
-  margin: 1.5rem 0;
-  padding: 1.25rem 1.5rem;
-  background: var(--color-background-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-background-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
 }
 
 .apuntes-moodle .indice h2 {
-  margin-top: 0;
-  margin-bottom: 0.75rem;
-  border-bottom: 0;
-  padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    border-bottom: 0;
+    padding-bottom: 0;
 }
 
 .apuntes-moodle .indice ol {
-  margin-top: 0;
-  margin-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 /* ------------------------------------------------------------
-   Listas de comprobación
-   ------------------------------------------------------------
-*/
+Listas de comprobación
+------------------------------------------------------------
+ */
 .apuntes-moodle .checklist {
-  padding-left: 1.5rem;
+    padding-left: 1.5rem;
 }
 
 .apuntes-moodle .checklist li::marker {
-  color: var(--color-accent);
+    color: var(--color-accent);
 }
 
 /* ------------------------------------------------------------
-   Separadores
-   ------------------------------------------------------------
-*/
+Separadores
+------------------------------------------------------------
+ */
 .apuntes-moodle hr {
-  height: 1px;
-  margin: 2rem 0;
-  border: 0;
-  background: linear-gradient(90deg, transparent 0%, var(--color-border) 20%, var(--color-accent) 50%, var(--color-border) 80%, transparent 100%);
+    height: 1px;
+    margin: 2rem 0;
+    border: 0;
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            var(--color-border) 20%,
+            var(--color-accent) 50%,
+            var(--color-border) 80%,
+            transparent 100%
+        );
 }
 
 /* ------------------------------------------------------------
-   Desplegables (details/summary)
-   ------------------------------------------------------------
-*/
+Desplegables (details/summary)
+------------------------------------------------------------
+ */
 .apuntes-moodle details {
-  margin: 1rem 0;
-  padding: 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
-  background: var(--color-background-muted);
+    margin: 1rem 0;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background: var(--color-background-muted);
 }
 
 .apuntes-moodle details summary {
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  color: var(--color-text);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-text);
 }
 
 .apuntes-moodle details summary:hover {
-  background: var(--color-accent-light);
+    background: var(--color-accent-light);
 }
 
 .apuntes-moodle details[open] summary {
-  border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .apuntes-moodle details > * {
-  padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem;
 }
 
 /* ------------------------------------------------------------
-   Contenido H5P embebido
-   ------------------------------------------------------------
-*/
+Contenido H5P embebido
+------------------------------------------------------------
+ */
 .apuntes-moodle .h5p-container {
-  position: relative;
-  width: 100%;
-  margin: 1.5rem 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  background: var(--color-background-muted);
+    position: relative;
+    width: 100%;
+    margin: 1.5rem 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background: var(--color-background-muted);
 }
 
 .apuntes-moodle .h5p-container iframe {
-  display: block;
-  width: 100%;
-  border: 0;
+    display: block;
+    width: 100%;
+    border: 0;
 }
 
 /* ------------------------------------------------------------
-   Imágenes
-   ------------------------------------------------------------
-*/
+Imágenes
+------------------------------------------------------------
+ */
 .apuntes-moodle img {
-  max-width: 100%;
-  height: auto;
-  border-radius: var(--border-radius);
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
 }
 
 .apuntes-moodle figure {
-  margin: 1.5rem 0;
+    margin: 1.5rem 0;
 }
 
 .apuntes-moodle figcaption {
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-  text-align: center;
-  font-style: italic;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    font-style: italic;
 }
 
 /* ------------------------------------------------------------
-   Citas
-   ------------------------------------------------------------
-*/
+Citas
+------------------------------------------------------------
+ */
 .apuntes-moodle blockquote {
-  margin: 1.5rem 0;
-  padding: 1rem 1.5rem;
-  color: var(--color-text-muted);
-  background: var(--color-background-muted);
-  border-left: 4px solid var(--color-accent);
-  font-style: italic;
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    color: var(--color-text-muted);
+    background: var(--color-background-muted);
+    border-left: 4px solid var(--color-accent);
+    font-style: italic;
 }
 
 /* ------------------------------------------------------------
-   Adaptación responsive
-   ------------------------------------------------------------
-*/
+Adaptación responsive
+------------------------------------------------------------
+ */
 @media (max-width: 680px) {
-  .apuntes-moodle {
-    padding: 1rem 0;
-  }
+    .apuntes-moodle {
+        padding: 1rem 0;
+    }
 
-  .apuntes-moodle h1 {
-    font-size: 1.5rem;
-  }
+    .apuntes-moodle h1 {
+        font-size: 1.5rem;
+    }
 
-  .apuntes-moodle h2 {
-    font-size: 1.25rem;
-  }
+    .apuntes-moodle h2 {
+        font-size: 1.25rem;
+    }
 
-  .apuntes-moodle h3 {
-    font-size: 1.1rem;
-  }
+    .apuntes-moodle h3 {
+        font-size: 1.1rem;
+    }
 
-  .apuntes-moodle th,
-  .apuntes-moodle td {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
-  }
+    .apuntes-moodle th,
+    .apuntes-moodle td {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
 
-  .apuntes-moodle pre {
-    padding: 1rem;
-    font-size: 0.9rem;
-  }
+    .apuntes-moodle pre {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
 }
 
 /* El informe de «Apuntes · Revisar la página» y un H5P pendiente nunca se muestran al alumnado, aunque se guarden. */
 [data-apuntes-informe],
 .h5p-placeholder[data-apuntes-pendiente] {
-  display: none;
+    display: none;
 }
 /* <<< APUNTES scorm2libro: fin */

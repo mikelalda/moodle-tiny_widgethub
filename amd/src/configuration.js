@@ -21,9 +21,9 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 import Common from './common';
-import { addMenubarItem } from 'editor_tiny/utils';
+import {addMenubarItem} from 'editor_tiny/utils';
 
-const { component } = Common;
+const {component} = Common;
 
 /**
  * @typedef {Object} Menu

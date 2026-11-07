@@ -20,7 +20,7 @@
  * @copyright   2026 Josep Mulet Pol <pep.mulet@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-import { getGlobalConfig } from "../options";
+import {getGlobalConfig} from "../options";
 import Common from '../common';
 import * as coreStr from "core/str";
 

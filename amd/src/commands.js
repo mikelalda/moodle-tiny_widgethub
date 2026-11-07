@@ -21,10 +21,10 @@
  * @copyright   2024 Josep Mulet Pol <pep.mulet@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-import { getButtonImage } from 'editor_tiny/utils';
+import {getButtonImage} from 'editor_tiny/utils';
 import * as coreStr from 'core/str';
 import Common from './common';
-import { getContextMenuManager } from './contextactions';
+import {getContextMenuManager} from './contextactions';
 import {
     getAdditionalCss,
     getGlobalConfig,
@@ -38,22 +38,23 @@ import {
     fetchEditorData
 } from './options';
 
-import { getWidgetPickCtrl } from './controller/widgetpicker_ctrl';
-import { getListeners } from './extension';
-import { getUserStorage } from './service/userstorage_service';
+import {getWidgetPickCtrl} from './controller/widgetpicker_ctrl';
+import {getListeners} from './extension';
+import {getUserStorage} from './service/userstorage_service';
 import {
     findVariableByName,
+    iframeLibraries,
     loadScriptAsync,
     removeRndFromCtx,
     searchComp
 } from './util';
-import { enableIframeBubble } from './extension/iframebubble';
-import { getWidgetParamsFactory } from './controller/widgetparams_ctrl';
+import {enableIframeBubble} from './extension/iframebubble';
+import {getWidgetParamsFactory} from './controller/widgetparams_ctrl';
 import Config from 'core/config';
-import { getFilterSrv } from './service/filter_service';
-import { getContextId } from 'editor_tiny/options';
+import {getFilterSrv} from './service/filter_service';
+import {getContextId} from 'editor_tiny/options';
 
-export const getSetup = async () => {
+export const getSetup = async() => {
     // Get some translations
     const [widgetNameTitle, buttonImage] = await Promise.all([
         coreStr.get_string('settings', Common.component),
@@ -117,7 +118,7 @@ export const getSetup = async () => {
             // Should it load recently used values?
             if (behavior === 'lastused') {
                 const ctxStored = storage.getRecentUsed().find(e => e.key === widget.key)?.p || {};
-                ctx = { ...ctx, ...removeRndFromCtx(ctxStored, widget.parameters) };
+                ctx = {...ctx, ...removeRndFromCtx(ctxStored, widget.parameters)};
             }
             return ctx;
         };
@@ -132,7 +133,7 @@ export const getSetup = async () => {
 
         // Click on button directly opens the only registered widget options.
         // Click on button directly opens the only registered widget options.
-        const defaultAction = async () => {
+        const defaultAction = async() => {
             await fetchEditorData(contextId);
             if (isInPlaygroundMode) {
                 // Click on button directly opens the only registered widget options.
@@ -163,7 +164,7 @@ export const getSetup = async () => {
              *
              * @param {((items: *[]) => void) } callback
              */
-            const splitbuttonFetch = async (callback) => {
+            const splitbuttonFetch = async(callback) => {
                 await fetchEditorData(contextId);
                 const widgetsDict = getWidgetDict(editor);
                 const isSelectMode = editor.selection.getContent().trim().length > 0;
@@ -184,7 +185,7 @@ export const getSetup = async () => {
              * @param {*} api
              * @param {string} key
              */
-            const splitbuttonAction = async (api, key) => {
+            const splitbuttonAction = async(api, key) => {
                 await fetchEditorData(contextId);
                 const widgetsDict = getWidgetDict(editor);
                 const widgetPickCtrl = getWidgetPickCtrl(editor);
@@ -224,9 +225,9 @@ export const getSetup = async () => {
              * @param {string} pattern
              * @returns {Promise<{type: string, value: string, text: string}[]>}
              */
-            const autocompleterFetch = async (pattern) => {
+            const autocompleterFetch = async(pattern) => {
                 await fetchEditorData(contextId);
-                const resultPromises = getMatchedWidgets(pattern).map(async (/** @type {import('./options').Widget} */ w) => {
+                const resultPromises = getMatchedWidgets(pattern).map(async(/** @type {import('./options').Widget} */ w) => {
 
                     const varname = w.prop('autocomplete')?.trim();
                     // Widgets that have autocomplete need to be fully loaded
@@ -305,7 +306,7 @@ export const getSetup = async () => {
  * If the user has selected automatic apply of filters on startup, apply them!
  * @param {import('./plugin').TinyMCE} editor
  */
-const applyAutoFilters = async (editor) => {
+const applyAutoFilters = async(editor) => {
     const contextId = getContextId(editor);
     await fetchEditorData(contextId);
     const storage = getUserStorage(editor);
@@ -334,7 +335,7 @@ const applyAutoFilters = async (editor) => {
             const pageForm = document.querySelector('form.mform');
             if (pageForm && pageForm.querySelector('div[data-fieldtype="editor"]')) {
                 let filtersApplied = false;
-                pageForm.addEventListener('submit', async (evt) => {
+                pageForm.addEventListener('submit', async(evt) => {
                     if (filtersApplied) {
                         return;
                     }
@@ -355,7 +356,7 @@ const applyAutoFilters = async (editor) => {
  */
 function initializeEditor(editor) {
     const contextId = getContextId(editor);
-    editor.once('SetContent', async () => {
+    editor.once('SetContent', async() => {
         // Ensure widget data is loaded before running contentSet listeners.
         // Without this await, cleanUnusedRequires (subscribed to contentSet) sees an
         // empty widget dict and removes all dependency scripts as "unknown".
@@ -365,130 +366,19 @@ function initializeEditor(editor) {
         getListeners('contentSet').forEach(listener => listener(editor));
     });
     // Add the bootstrap, CSS, etc... into the editor's iframe
-    editor.on('init', async () => {
+    editor.on('init', async() => {
         // On init editor.dom is ready
         // Ensure async widget data is available before proceeding (race condition guard).
         await fetchEditorData(contextId);
 
-        // Inject css all generated by Moodle into the editor's iframe
-        // http://localhost:4141/theme/styles.php/boost/1721728984_1/all
-        if (isShareCss(editor)) {
-            // TODO: Missing themesubrevision
-            const subversion = 1;
-            const allCss = `${Config.wwwroot}/theme/styles.php/${Config.theme}/${Config.themerev}_${subversion}/all`;
-            editor.dom.loadCSS(allCss);
-        }
-
-        // Inject css from site Admin textarea.
-        let adminCss = (getAdditionalCss() ?? '').trim();
-        if (adminCss) {
-            // Commented URLs are interpreted as loadCss
-            const regex = /\/\*{2}\s+(http(s?):\/\/.*)\s+\*{2}\//gm;
-            adminCss = adminCss.replace(regex, (_, $1) => {
-                editor.dom.loadCSS($1);
-                return '';
-            });
-            if (adminCss.trim()) {
-                // Manually create the style tag in the correct position
-                // It must go after the shared css
-                const style = editor.dom.create('style', { type: 'text/css', id: "twh_admin_styles" });
-                style.textContent = adminCss;
-                const doc = editor.getDoc();
-                doc?.head?.appendChild(style);
-            }
-        }
+        injectStyles(editor);
 
         // Initialize context toolbars and menus if we are not in playground mode.
         if (!isPlaygroundMode() && parseInt(getGlobalConfig(editor, 'enable.contextmenu.level', '1')) > 0) {
             await getContextMenuManager(editor).init();
         }
 
-        // Detect jQuery and Boostrap versions.
-        // @ts-ignore
-        const moodleVersion = getMoodleVersion(editor);
-        let jqUrl = getGlobalConfig(editor, 'tiny.iframe.jquery.url', '').trim();
-        let jqIntegrity = '';
-        let bsUrl = getGlobalConfig(editor, 'tiny.iframe.bootstrap.url', '').trim();
-        let bsIntegrity = '';
-
-        if (!bsUrl) {
-            if (moodleVersion.startsWith('4')) {
-                bsUrl = `https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js`;
-                bsIntegrity = 'sha256-GRJrh0oydT1CwS36bBeJK/2TggpaUQC6GzTaTQdZm0k=';
-            } else {
-                bsUrl = `https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js`;
-                bsIntegrity = 'sha256-5P1JGBOIxI7FBAvT/mb1fCnI5n/NhQKzNUuW7Hq0fMc=';
-            }
-        }
-
-        if (!jqUrl && moodleVersion.startsWith('4')) {
-            try {
-                // @ts-ignore
-                const path = window.requirejs.s.contexts._.config.paths.jquery;
-                jqUrl = path.startsWith('http')
-                    ? path
-                    : Config.wwwroot + path;
-                if (!jqUrl.endsWith('.js')) {
-                    jqUrl += '.js';
-                }
-            } catch (e) {
-                jqUrl = 'https://code.jquery.com/jquery-3.7.1.min.js';
-                jqIntegrity = 'sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=';
-            }
-        }
-
-        const requiresJquery = jqUrl !== '' && jqUrl !== 'none';
-        const head = editor.getDoc().querySelector("head");
-        const iframeWindow = editor.getWin();
-        try {
-            // Load jQuery if required
-            if (requiresJquery && !iframeWindow.jQuery) {
-                await loadScriptAsync(
-                    editor,
-                    jqUrl,
-                    jqIntegrity
-                );
-            }
-
-            // Load Bootstrap if required (bundle already includes Popper)
-            // BS5 exposes window.bootstrap, BS4 attaches to jQuery.fn
-            const bsAlreadyLoaded = iframeWindow.bootstrap || iframeWindow.jQuery?.fn?.popover;
-            if (bsUrl !== '' && bsUrl !== 'none' && !bsAlreadyLoaded) {
-                await loadScriptAsync(
-                    editor,
-                    bsUrl,
-                    bsIntegrity
-                );
-            }
-
-            // Initialize Bootstrap components depending on version
-            if (bsUrl.includes('@5')) {
-                // Bootstrap 5 – no jQuery, use vanilla JS API
-                const initScript = editor.dom.create('script');
-                initScript.id = 'init_bs_comp';
-                initScript.innerHTML = `
-                    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
-                        new bootstrap.Popover(el, { trigger: 'hover' });
-                    });
-                `;
-                head.appendChild(initScript);
-            } else if (requiresJquery && bsUrl.includes('@4')) {
-                // Bootstrap 4 – jQuery-based initialization
-                const initScript = editor.dom.create('script');
-                initScript.id = 'init_bs_comp';
-                initScript.innerHTML = `
-                    $(document).ready(function() {
-                        $('body').popover({
-                            selector: '[data-toggle="popover"]',
-                            trigger: 'hover'
-                        });
-                    });
-                `;
-                head.appendChild(initScript);
-            }
-        } catch (ex) {
-            console.error("Error loading scripts into editor's iframe: ", ex);
-        }
+        await loadLibraries(editor, detectLibraries(editor));
 
         //  If feature is active, treat iframes so they can be selected as widgets
         if (getGlobalConfig(editor, 'tiny.contextmenu.iframes', '1') === '1') {
@@ -498,4 +388,116 @@ function initializeEditor(editor) {
         // Run all subscribers
         getListeners('onInit').forEach(listener => listener(editor));
     });
+}
+
+/**
+ * Inject into the editor's iframe the CSS of the theme and the CSS set by the administrator.
+ *
+ * @param {import('./plugin').TinyMCE} editor
+ */
+function injectStyles(editor) {
+    // Inject css all generated by Moodle into the editor's iframe
+    // http://localhost:4141/theme/styles.php/boost/1721728984_1/all
+    if (isShareCss(editor)) {
+        // TODO: Missing themesubrevision
+        const subversion = 1;
+        const allCss = `${Config.wwwroot}/theme/styles.php/${Config.theme}/${Config.themerev}_${subversion}/all`;
+        editor.dom.loadCSS(allCss);
+    }
+
+    // Inject css from site Admin textarea.
+    let adminCss = (getAdditionalCss() ?? '').trim();
+    if (adminCss) {
+        // Commented URLs are interpreted as loadCss
+        const regex = /\/\*{2}\s+(http(s?):\/\/.*)\s+\*{2}\//gm;
+        adminCss = adminCss.replace(regex, (_, $1) => {
+            editor.dom.loadCSS($1);
+            return '';
+        });
+        if (adminCss.trim()) {
+            // Manually create the style tag in the correct position
+            // It must go after the shared css
+            const style = editor.dom.create('style', {type: 'text/css', id: "twh_admin_styles"});
+            style.textContent = adminCss;
+            const doc = editor.getDoc();
+            doc?.head?.appendChild(style);
+        }
+    }
+}
+
+/**
+ * The jQuery and Bootstrap scripts the editor's iframe needs, from the settings
+ * or else the versions that match this Moodle.
+ *
+ * @param {import('./plugin').TinyMCE} editor
+ * @returns {{jqUrl: string, jqIntegrity: string, bsUrl: string, bsIntegrity: string}}
+ */
+function detectLibraries(editor) {
+    return iframeLibraries({
+        moodleVersion: getMoodleVersion(editor),
+        jqUrl: getGlobalConfig(editor, 'tiny.iframe.jquery.url', ''),
+        bsUrl: getGlobalConfig(editor, 'tiny.iframe.bootstrap.url', ''),
+        wwwroot: Config.wwwroot,
+    });
+}
+
+/**
+ * Load jQuery and Bootstrap into the editor's iframe and start the Bootstrap popovers.
+ *
+ * @param {import('./plugin').TinyMCE} editor
+ * @param {{jqUrl: string, jqIntegrity: string, bsUrl: string, bsIntegrity: string}} libraries
+ */
+async function loadLibraries(editor, {jqUrl, jqIntegrity, bsUrl, bsIntegrity}) {
+    const requiresJquery = jqUrl !== '' && jqUrl !== 'none';
+    const head = editor.getDoc().querySelector("head");
+    const iframeWindow = editor.getWin();
+    try {
+        // Load jQuery if required
+        if (requiresJquery && !iframeWindow.jQuery) {
+            await loadScriptAsync(
+                editor,
+                jqUrl,
+                jqIntegrity
+            );
+        }
+
+        // Load Bootstrap if required (bundle already includes Popper)
+        // BS5 exposes window.bootstrap, BS4 attaches to jQuery.fn
+        const bsAlreadyLoaded = iframeWindow.bootstrap || iframeWindow.jQuery?.fn?.popover;
+        if (bsUrl !== '' && bsUrl !== 'none' && !bsAlreadyLoaded) {
+            await loadScriptAsync(
+                editor,
+                bsUrl,
+                bsIntegrity
+            );
+        }
+
+        // Initialize Bootstrap components depending on version
+        if (bsUrl.includes('@5')) {
+            // Bootstrap 5 – no jQuery, use vanilla JS API
+            const initScript = editor.dom.create('script');
+            initScript.id = 'init_bs_comp';
+            initScript.innerHTML = `
+                document.querySelectorAll('[data-bs-toggle="popover"]').forEach(el => {
+                    new bootstrap.Popover(el, { trigger: 'hover' });
+                });
+            `;
+            head.appendChild(initScript);
+        } else if (requiresJquery && bsUrl.includes('@4')) {
+            // Bootstrap 4 – jQuery-based initialization
+            const initScript = editor.dom.create('script');
+            initScript.id = 'init_bs_comp';
+            initScript.innerHTML = `
+                $(document).ready(function() {
+                    $('body').popover({
+                        selector: '[data-toggle="popover"]',
+                        trigger: 'hover'
+                    });
+                });
+            `;
+            head.appendChild(initScript);
+        }
+    } catch (ex) {
+        console.error("Error loading scripts into editor's iframe: ", ex);
+    }
 }

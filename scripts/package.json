@@ -5,7 +5,8 @@
   "main": "presets_tiny.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile-css": "node compile_styles.js"
+    "compile-css": "node compile_styles.js",
+    "format-css": "node format_styles.js"
   },
   "author": "Josep Mulet Pol",
   "license": "ISC",

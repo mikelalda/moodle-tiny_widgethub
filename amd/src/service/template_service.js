@@ -23,8 +23,8 @@
  */
 
 import mustache from 'core/mustache';
-import { genID } from '../util';
-import { Sandbox } from './sandbox';
+import {genID} from '../util';
+import {Sandbox} from './sandbox';
 
 /**
  * Sanitizes the given HTML using the editor's schema.
@@ -40,7 +40,7 @@ export function sanitize(html, editor) {
     const parser = editor.editorManager.html.DomParser({
         validate: true,
         schema: schema,
-        allow_script_urls: false
+        'allow_script_urls': false
     }, schema);
     const doc = parser.parse(html);
     return editor.editorManager.html.Serializer({}, schema).serialize(doc);
@@ -95,7 +95,7 @@ export class TemplateSrv {
         }
         engine = engine.toLowerCase();
         /** @type {Object.<string, any>} */
-        const ctx = Object.assign(Object.create(null), context, { I18n: Object.create(null) });
+        const ctx = Object.assign(Object.create(null), context, {I18n: Object.create(null)});
         Object.keys(ctx).forEach(key => {
             if (ctx[key] === "$RND") {
                 ctx[key] = genID();
@@ -108,7 +108,7 @@ export class TemplateSrv {
         }
         try {
             const sandbox = await Sandbox.getInstance();
-            const response = await sandbox.execute(engine, { template, ctx, translations });
+            const response = await sandbox.execute(engine, {template, ctx, translations});
             return sanitize(response.result, this.editor);
         } catch (/** @type {any} */ ex) {
             const msg = ex.message || (ex + "");
@@ -164,7 +164,7 @@ export function createDefaultsForParam(param, populateRepeatable) {
                 }
                 let val = field.value ?? '';
                 if (typeof (val) === 'string' && val.indexOf("{{i}}") >= 0) {
-                    val = templateSrv.renderMustache(val, { i }, true);
+                    val = templateSrv.renderMustache(val, {i}, true);
                 }
                 obj[field.name] = val;
             });
